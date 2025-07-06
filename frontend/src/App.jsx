@@ -1,10 +1,11 @@
 import React from 'react'
-import Home from './components/pages/Home/Home'
 import { Route, Routes } from 'react-router-dom'
-import Contact from './components/pages/Contact/Contact'
-import About from './components/pages/About/About'
-import Menu from './components/pages/Menu/Menu'
-import Cart from './components/pages/Cart/Cart'
+import Home from './pages/Home/Home'
+import Contact from './pages/Contact/Contact'
+import About from './pages/About/About'
+import Menu from './pages/Menu/Menu'
+import Cart from './pages/Cart/Cart'
+
 
 const App = () => {
   return (
