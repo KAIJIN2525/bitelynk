@@ -12,7 +12,7 @@ import {
   FiLogOut,
   FiKey,
   FiUser,
-  FiUserCheck
+  FiUserCheck,
 } from "react-icons/fi";
 import { MdRestaurantMenu } from "react-icons/md";
 import { useCart } from "../../CartContext/CartContext";
@@ -35,7 +35,7 @@ const Navbar = () => {
     setIsAuthenticated(true);
     setShowLoginModal(false);
     navigate("/");
-  }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("loginData");
@@ -45,38 +45,44 @@ const Navbar = () => {
   // EXTRACT DESKTOP AUTH BUTTON
   const renderDesktopAuthButton = () => {
     return isAuthenticated ? (
-      <button onClick={handleLogout} className="w-full px-4 py-3">
-        <FiLogOut className=" text-base md:text-lg lg:text-lg" />
-       <span className="text-shadow">Logout</span>
+      <button
+        onClick={handleLogout}
+        className="px-3 md:px-3 lg:px-6 py-1.5 md:py-2 lg:py-3 bg-gradient-to-br from-red-600 to-red-700 text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-red-600/40 transition-all transform hover:scale-[1.02] border-2 border-red-600/20 flex items-center space-x-2 shadow-md shadow-red-900/20 text-xs md:text-sm lg:text-sm"
+      >
+        <FiLogOut className="text-base md:text-lg lg:text-lg" />
+        <span>Logout</span>
       </button>
     ) : (
-      <button onClick={() => navigate("/login")} className="px-3 md:px-3 lg:px-6 py-1.5 md:py-2 lg:py-3 bg-gradient-to-br from-amber-600 to-amber-700 text-[#2D1B0E] rounded-2xl font-bold hover:shadow-lg hover:shadow-amber-600/40 transition-all transform hover:scale-[1.02] border-2 border-amber-600/20 flex items-center space-x-2 shadow-md shadow-amber-900/20 text-xs md:text-sm lg:text-sm">
-        <FiKey className=" text-base md:text-lg lg:text-lg" />
-        <span className="text-shadow">Login</span>
+      <button
+        onClick={() => navigate("/login")}
+        className="px-3 md:px-3 lg:px-6 py-1.5 md:py-2 lg:py-3 bg-gradient-to-br from-amber-600 to-amber-700 text-[#2D1B0E] rounded-2xl font-bold hover:shadow-lg hover:shadow-amber-600/40 transition-all transform hover:scale-[1.02] border-2 border-amber-600/20 flex items-center space-x-2 shadow-md shadow-amber-900/20 text-xs md:text-sm lg:text-sm"
+      >
+        <FiKey className="text-base md:text-lg lg:text-lg" />
+        <span>Login</span>
       </button>
-    )
-  }
+    );
+  };
 
   // EXTRACT MOBILE AUTH BUTTON
   const renderMobileAuthButton = () => {
     return isAuthenticated ? (
-      <button 
-        onClick={handleLogout} 
+      <button
+        onClick={handleLogout}
         className="p-2 text-amber-100 rounded-xl transition-all relative border-2 border-amber-900/30 hover:border-amber-600/50 hover:bg-amber-900/20 hover:shadow-lg hover:shadow-amber-500/30 shadow-md shadow-amber-900/20"
         title="Logout"
       >
         <FiUserCheck className="w-6 h-6" />
       </button>
     ) : (
-      <button 
-        onClick={() => navigate("/login")} 
+      <button
+        onClick={() => navigate("/login")}
         className="p-2 text-amber-100 rounded-xl transition-all relative border-2 border-amber-900/30 hover:border-amber-600/50 hover:bg-amber-900/20 hover:shadow-lg hover:shadow-amber-500/30 shadow-md shadow-amber-900/20"
         title="Login"
       >
         <FiUser className="w-6 h-6" />
       </button>
     );
-  }
+  };
 
   useEffect(() => {
     setShowLoginModal(location.pathname === "/login");
@@ -241,7 +247,7 @@ const Navbar = () => {
             >
               <FiX />
             </button>
-            <h2 className="text-2xl font-bold bg-gradient-to-r text-center from-amber-400 to-amber-600 bg-clip-text text-transparent">
+            <h2 className="text-2xl font-bold bg-gradient-to-r text-center from-amber-400 to-amber-600 bg-clip-text text-transparent mb-4">
               BiteLynk
             </h2>
             <Login
