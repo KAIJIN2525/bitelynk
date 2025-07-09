@@ -1,14 +1,15 @@
 import Footer from '../../components/Footer/Footer'
 import Navbar from '../../components/Navbar/Navbar'
+import About from '../../components/About/About'
 
-const About = () => {
+const AboutPage = () => {
   return (
     <>
        <Navbar />
-
+        <About />
        <Footer />
     </>
   )
 }
 
-export default About
+export default AboutPage;

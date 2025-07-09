@@ -17,7 +17,10 @@ const Footer = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
-    console.log("Form submitted");
+    if (!email) {
+      toast.error("Please enter a valid email address.", { duration: 3000 });
+      return;
+    }
     toast.success(
       `Thank you for subscribing! We'll send you updates to ${email}.`,
       { duration: 4000 }
@@ -53,6 +56,7 @@ const Footer = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="border border-amber-400/30 rounded-md py-2.5 px-4 w-full bg-amber-50/5 text-amber-100 placeholder-amber-200/50 focus:outline-none focus:ring-2 focus:border-amber-400 focus:ring-amber-400/20 transition-all duration-300 pr-24 "
+                  required
                 />
                 <button
                   type="submit"

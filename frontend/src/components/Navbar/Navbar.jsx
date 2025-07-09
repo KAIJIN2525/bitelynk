@@ -183,7 +183,7 @@ const Navbar = () => {
             >
               <FiShoppingCart className="size-6" />
               {totalItems > 0 && (
-                <span className="top-2 right-2 bg-amber-600 text-amber-100 text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                <span className="absolute -top-1 -right-2 bg-amber-600 text-amber-100 text-xs w-5 h-5 flex items-center justify-center rounded-full">
                   {totalItems}
                 </span>
               )}

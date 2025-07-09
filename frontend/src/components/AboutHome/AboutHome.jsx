@@ -36,7 +36,7 @@ const AboutHome = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 px-4 sm:px-8">
             {aboutfeature.map((feature, index) => (
-              <div className="flex flex-col items-center justify-center gap-3 sm:gap-4 transition-transform duration-300 p-4 sm:p-5 hover:translate-x-2">
+              <div key={index} className="flex flex-col items-center justify-center gap-3 sm:gap-4 transition-transform duration-300 p-4 sm:p-5 hover:translate-x-2">
                 <div
                   className={` p-3 sm:p-4 rounded-full bg-gradient-to-br ${feature.color} transition-transform duration-300 group-hover:scale-110 `}
                 >
