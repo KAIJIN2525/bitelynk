@@ -10,6 +10,7 @@ import {
 } from "../../assets/dummydata";
 import { useState } from "react";
 import FloatingParticle from "../FloatingParticle/FloatingParticle";
+import { formatPrice } from "../../utils/priceUtils";
 
 const SpecialOffer = () => {
   const [showAll, setShowAll] = useState(false);
@@ -17,23 +18,12 @@ const SpecialOffer = () => {
   const { addToCart, updateQuantity, removeFromCart, cartItems } = useCart();
 
   const handleAddToCart = (item) => {
-    // More robust price parsing
-    const cleanPrice = item.price.toString().replace(/[^\d.-]/g, "");
-    const numericPrice = parseFloat(cleanPrice) || 0;
-
-    console.log("Adding to cart:", {
-      item: item.title,
-      originalPrice: item.price,
-      cleanPrice,
-      numericPrice,
-    });
-
     addToCart(
       {
         ...item,
         id: item.id,
         name: item.title,
-        price: numericPrice,
+        price: item.price, // Already numeric
         image: item.image,
       },
       1
@@ -103,7 +93,7 @@ const SpecialOffer = () => {
 
                     <div className="flex items-center justify-between gap-4">
                       <span className="text-2xl font-bold text-amber-400 flex-1">
-                        {item.price}
+                        {formatPrice(item.price)}
                       </span>
 
                       {cartItem ? (

@@ -171,7 +171,7 @@ export const cardData = [
     description: "Juicy grilled meat with authentic spices",
     image: Kebab,
     popular: true,
-    price: "₦4,000",
+    price: 4000,
   },
   {
     id: 2,
@@ -181,7 +181,7 @@ export const cardData = [
     description: "Tender chicken marinated in sauce",
     image: ChickenTikka,
     bestseller: true,
-    price: "₦1,400",
+    price: 1400,
   },
   {
     id: 3,
@@ -190,7 +190,7 @@ export const cardData = [
     hearts: 85,
     description: "Spicy Asian noodles with a local twist",
     image: DesiChowmein,
-    price: "₦6,000",
+    price: 6000,
   },
   {
     id: 4,
@@ -200,7 +200,7 @@ export const cardData = [
     description: "Crispy golden fried whole chicken",
     image: ChickenChargha,
     special: true,
-    price: "₦2,000",
+    price: 2000,
   },
 ];
 export const additionalData = [
@@ -212,7 +212,7 @@ export const additionalData = [
     description: "Cottage cheese marinated in spices",
     image: PaneerTikka,
     popular: true,
-    price: "₦2,200",
+    price: 2200,
   },
   {
     id: 6,
@@ -221,7 +221,7 @@ export const additionalData = [
     hearts: 165,
     description: "Crispy rice crepe with potato filling",
     image: MasalaDosa,
-    price: "₦1,800",
+    price: 1800,
   },
   {
     id: 7,
@@ -230,7 +230,7 @@ export const additionalData = [
     hearts: 190,
     description: "Spinach curry with cottage cheese",
     image: PalakPaneer,
-    price: "₦2,500",
+    price: 2500,
   },
   {
     id: 8,
@@ -240,7 +240,7 @@ export const additionalData = [
     description: "Golden dumplings in rose syrup",
     image: GulabJamun,
     special: true,
-    price: "₦3,000",
+    price: 3000,
   },
 ];
 

@@ -4,6 +4,7 @@ import { dummyMenuData } from "../../assets/OmhDD";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./OurHomeMenu.css";
+import { formatPrice } from "../../utils/priceUtils";
 
 const categories = [
   "Breakfast",
@@ -81,7 +82,7 @@ const OurHomeMenu = () => {
                   <div className="mt-auto flex items-center gap-4 justify-between">
                     <div className="bg-amber-100/10 backdrop-blur-sm py-1 px-3 rounded-2xl shadow-lg">
                       <span className="text-xl font-bold text-amber-300 font-dancingscript">
-                        {item.price}
+                        {formatPrice(item.price)}
                       </span>
                     </div>
 

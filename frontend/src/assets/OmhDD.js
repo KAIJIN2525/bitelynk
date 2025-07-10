@@ -60,7 +60,7 @@ export const dummyMenuData = {
     {
       id: "breakfast-1",
       name: "Eggs Benedict",
-      price: "₦2,800",
+      price: 2800,
       rating: 4.2,
       image: EggsBenedict,
       description:
@@ -69,7 +69,7 @@ export const dummyMenuData = {
     {
       id: "breakfast-2",
       name: "Avocado Toast",
-      price: "₦2,200",
+      price: 2200,
       rating: 4.5,
       image: AvocadoToast,
       description: "Toasted bread topped with smashed avocado and spices.",
@@ -77,7 +77,7 @@ export const dummyMenuData = {
     {
       id: "breakfast-3",
       name: "Pancakes with Maple Syrup",
-      price: "₦2,500",
+      price: 2500,
       rating: 4.3,
       image: PancakeswithMapleSyrup,
       description: "Fluffy pancakes drizzled with pure maple syrup.",
@@ -85,7 +85,7 @@ export const dummyMenuData = {
     {
       id: "breakfast-4",
       name: "Fruit Smoothie Bowl",
-      price: "₦2,700",
+      price: 2700,
       rating: 4.6,
       image: FruitSmoothieBowl,
       description:
@@ -94,7 +94,7 @@ export const dummyMenuData = {
     {
       id: "breakfast-5",
       name: "French Toast",
-      price: "₦2,400",
+      price: 2400,
       rating: 4.4,
       image: FrenchToast,
       description:
@@ -103,7 +103,7 @@ export const dummyMenuData = {
     {
       id: "breakfast-6",
       name: "Breakfast Burrito",
-      price: "₦2,900",
+      price: 2900,
       rating: 4.2,
       image: BreakfastBurrito,
       description: "Eggs, cheese, and veggies wrapped in a soft tortilla.",
@@ -111,7 +111,7 @@ export const dummyMenuData = {
     {
       id: "breakfast-7",
       name: "Bagel with Lox",
-      price: "₦3,200",
+      price: 3200,
       rating: 4.5,
       image: BagelwithLox,
       description:
@@ -120,7 +120,7 @@ export const dummyMenuData = {
     {
       id: "breakfast-8",
       name: "Granola Parfait",
-      price: "₦1,800",
+      price: 1800,
       rating: 4.3,
       image: GranolaParfait,
       description: "Layers of granola, yogurt, and fresh berries.",
@@ -130,7 +130,7 @@ export const dummyMenuData = {
     {
       id: "lunch-1",
       name: "Chicken Caesar Salad",
-      price: "₦3,800",
+      price: 3800,
       rating: 4.4,
       image: ChickenCaesarSalad,
       description:
@@ -139,7 +139,7 @@ export const dummyMenuData = {
     {
       id: "lunch-2",
       name: "Club Sandwich",
-      price: "₦3,200",
+      price: 3200,
       rating: 4.3,
       image: ClubSandwich,
       description:
@@ -148,7 +148,7 @@ export const dummyMenuData = {
     {
       id: "lunch-3",
       name: "Veggie Wrap",
-      price: "₦2,800",
+      price: 2800,
       rating: 4.2,
       image: VeggieWrap,
       description:
@@ -157,7 +157,7 @@ export const dummyMenuData = {
     {
       id: "lunch-4",
       name: "Grilled Cheese Sandwich",
-      price: "₦2,500",
+      price: 2500,
       rating: 4.0,
       image: GrilledCheeseSandwich,
       description: "Classic grilled cheese with melted cheddar on sourdough.",
@@ -165,7 +165,7 @@ export const dummyMenuData = {
     {
       id: "lunch-5",
       name: "Turkey Panini",
-      price: "₦3,500",
+      price: 3500,
       rating: 4.5,
       image: TurkeyPanini,
       description: "Pressed panini with turkey, Swiss cheese, and pesto.",
@@ -173,7 +173,7 @@ export const dummyMenuData = {
     {
       id: "lunch-6",
       name: "Quinoa Salad",
-      price: "₦3,000",
+      price: 3000,
       rating: 4.3,
       image: QuinoaSalad,
       description: "Healthy salad with quinoa, mixed greens, and vinaigrette.",
@@ -181,7 +181,7 @@ export const dummyMenuData = {
     {
       id: "lunch-7",
       name: "Pasta Salad",
-      price: "₦2,700",
+      price: 2700,
       rating: 4.2,
       image: PastaSalad,
       description:
@@ -190,7 +190,7 @@ export const dummyMenuData = {
     {
       id: "lunch-8",
       name: "Fish Tacos",
-      price: "₦4,200",
+      price: 4200,
       rating: 4.4,
       image: FishTacos,
       description: "Grilled fish tacos with cabbage slaw and lime crema.",
@@ -200,7 +200,7 @@ export const dummyMenuData = {
     {
       id: "dinner-1",
       name: "Grilled Ribeye Steak",
-      price: "₦7,500",
+      price: 7500,
       rating: 4.7,
       image: GrilledRibeyeSteak,
       description: "Juicy ribeye steak grilled to perfection.",
@@ -208,7 +208,7 @@ export const dummyMenuData = {
     {
       id: "dinner-2",
       name: "Salmon Fillet",
-      price: "₦6,800",
+      price: 6800,
       rating: 4.5,
       image: SalmonFillet,
       description: "Fresh salmon fillet with a lemon butter sauce.",
@@ -216,7 +216,7 @@ export const dummyMenuData = {
     {
       id: "dinner-3",
       name: "Roast Chicken",
-      price: "₦5,200",
+      price: 5200,
       rating: 4.4,
       image: RoastChicken,
       description: "Herb-roasted chicken served with seasonal vegetables.",
@@ -224,7 +224,7 @@ export const dummyMenuData = {
     {
       id: "dinner-4",
       name: "Pasta Primavera",
-      price: "₦4,800",
+      price: 4800,
       rating: 4.3,
       image: PastaPrimavera,
       description: "Pasta with fresh seasonal vegetables in a light sauce.",
@@ -232,7 +232,7 @@ export const dummyMenuData = {
     {
       id: "dinner-5",
       name: "Beef Bourguignon",
-      price: "₦7,200",
+      price: 7200,
       rating: 4.6,
       image: BeefBourguignon,
       description: "Classic French beef stew with red wine and mushrooms.",
@@ -240,7 +240,7 @@ export const dummyMenuData = {
     {
       id: "dinner-6",
       name: "Vegetable Stir Fry",
-      price: "₦4,200",
+      price: 4200,
       rating: 4.2,
       image: VegetableStirFry,
       description: "Crispy vegetables stir-fried in a tangy sauce.",
@@ -248,7 +248,7 @@ export const dummyMenuData = {
     {
       id: "dinner-7",
       name: "Shrimp Scampi",
-      price: "₦6,500",
+      price: 6500,
       rating: 4.5,
       image: ShrimpScampi,
       description: "Shrimp cooked in garlic butter sauce over linguine.",
@@ -256,7 +256,7 @@ export const dummyMenuData = {
     {
       id: "dinner-8",
       name: "Lamb Chops",
-      price: "₦8,200",
+      price: 8200,
       rating: 4.8,
       image: LambChops,
       description: "Grilled lamb chops with rosemary and garlic.",
@@ -266,7 +266,7 @@ export const dummyMenuData = {
     {
       id: "mexican-1",
       name: "Tacos al Pastor",
-      price: "₦3,500",
+      price: 3500,
       rating: 4.6,
       image: TacosalPastor,
       description: "Tacos with marinated pork, pineapple, and cilantro.",
@@ -274,7 +274,7 @@ export const dummyMenuData = {
     {
       id: "mexican-2",
       name: "Chicken Quesadilla",
-      price: "₦3,800",
+      price: 3800,
       rating: 4.4,
       image: ChickenQuesadilla,
       description: "Grilled quesadilla filled with chicken, cheese, and salsa.",
@@ -282,7 +282,7 @@ export const dummyMenuData = {
     {
       id: "mexican-3",
       name: "Enchiladas",
-      price: "₦4,200",
+      price: 4200,
       rating: 4.5,
       image: Enchiladas,
       description:
@@ -291,7 +291,7 @@ export const dummyMenuData = {
     {
       id: "mexican-4",
       name: "Fajitas",
-      price: "₦5,500",
+      price: 5500,
       rating: 4.7,
       image: Fajitas,
       description: "Sizzling steak or chicken served with peppers and onions.",
@@ -299,7 +299,7 @@ export const dummyMenuData = {
     {
       id: "mexican-5",
       name: "Nachos",
-      price: "₦2,800",
+      price: 2800,
       rating: 4.3,
       image: Nachos,
       description: "Crispy tortilla chips loaded with cheese and toppings.",
@@ -307,7 +307,7 @@ export const dummyMenuData = {
     {
       id: "mexican-6",
       name: "Burrito",
-      price: "₦4,500",
+      price: 4500,
       rating: 4.2,
       image: Burrito,
       description: "A large flour tortilla filled with beans, rice, and meat.",
@@ -315,7 +315,7 @@ export const dummyMenuData = {
     {
       id: "mexican-7",
       name: "Tamales",
-      price: "₦3,200",
+      price: 3200,
       rating: 4.4,
       image: Tamales,
       description: "Steamed masa filled with meats or vegetables.",
@@ -323,7 +323,7 @@ export const dummyMenuData = {
     {
       id: "mexican-8",
       name: "Chilaquiles",
-      price: "₦3,800",
+      price: 3800,
       rating: 4.5,
       image: Chilaquiles,
       description: "Tortilla chips simmered in a red or green salsa.",
@@ -333,7 +333,7 @@ export const dummyMenuData = {
     {
       id: "italian-1",
       name: "Spaghetti Carbonara",
-      price: "₦4,800",
+      price: 4800,
       rating: 4.7,
       image: SpaghettiCarbonara,
       description: "Classic pasta with eggs, cheese, pancetta, and pepper.",
@@ -341,7 +341,7 @@ export const dummyMenuData = {
     {
       id: "italian-2",
       name: "Lasagna",
-      price: "₦5,200",
+      price: 5200,
       rating: 4.6,
       image: Lasagna,
       description: "Layers of pasta with meat sauce, cheese, and béchamel.",
@@ -349,7 +349,7 @@ export const dummyMenuData = {
     {
       id: "italian-3",
       name: "Risotto",
-      price: "₦4,500",
+      price: 4500,
       rating: 4.5,
       image: Risotto,
       description: "Creamy Arborio rice cooked with broth and parmesan.",
@@ -357,7 +357,7 @@ export const dummyMenuData = {
     {
       id: "italian-4",
       name: "Margherita Pizza",
-      price: "₦3,800",
+      price: 3800,
       rating: 4.8,
       image: MargheritaPizza,
       description: "Pizza topped with tomato sauce, mozzarella, and basil.",
@@ -365,7 +365,7 @@ export const dummyMenuData = {
     {
       id: "italian-5",
       name: "Fettuccine Alfredo",
-      price: "₦4,200",
+      price: 4200,
       rating: 4.4,
       image: FettuccineAlferdo,
       description: "Pasta in a rich and creamy Alfredo sauce.",
@@ -373,7 +373,7 @@ export const dummyMenuData = {
     {
       id: "italian-6",
       name: "Pesto Pasta",
-      price: "₦4,000",
+      price: 4000,
       rating: 4.3,
       image: PestoPasta,
       description: "Pasta tossed in a vibrant basil pesto sauce.",
@@ -381,7 +381,7 @@ export const dummyMenuData = {
     {
       id: "italian-7",
       name: "Gnocchi",
-      price: "₦4,500",
+      price: 4500,
       rating: 4.2,
       image: Gnocchi,
       description: "Soft potato dumplings served with a marinara sauce.",
@@ -389,7 +389,7 @@ export const dummyMenuData = {
     {
       id: "italian-8",
       name: "Osso Buco",
-      price: "₦7,800",
+      price: 7800,
       rating: 4.7,
       image: OssoBuco,
       description: "Braised veal shanks with vegetables and white wine.",
@@ -399,7 +399,7 @@ export const dummyMenuData = {
     {
       id: "desserts-1",
       name: "Tiramisu",
-      price: "₦2,800",
+      price: 2800,
       rating: 4.7,
       image: TiramisuCake,
       description: "Classic Italian dessert with coffee and mascarpone.",
@@ -407,7 +407,7 @@ export const dummyMenuData = {
     {
       id: "desserts-2",
       name: "Gelato",
-      price: "₦1,800",
+      price: 1800,
       rating: 4.5,
       image: Gelato,
       description: "Italian-style ice cream available in various flavors.",
@@ -415,7 +415,7 @@ export const dummyMenuData = {
     {
       id: "desserts-3",
       name: "Cannoli",
-      price: "₦2,200",
+      price: 2200,
       rating: 4.6,
       image: Cannoli,
       description: "Crispy pastry tubes filled with sweet ricotta cream.",
@@ -423,7 +423,7 @@ export const dummyMenuData = {
     {
       id: "desserts-4",
       name: "Panna Cotta",
-      price: "₦2,000",
+      price: 2000,
       rating: 4.4,
       image: PannaCotta,
       description: "Smooth, creamy dessert topped with berry compote.",
@@ -431,7 +431,7 @@ export const dummyMenuData = {
     {
       id: "desserts-5",
       name: "Cheesecake",
-      price: "₦2,500",
+      price: 2500,
       rating: 4.5,
       image: CheeseCake,
       description: "Rich cheesecake with a graham cracker crust.",
@@ -439,7 +439,7 @@ export const dummyMenuData = {
     {
       id: "desserts-6",
       name: "Chocolate Mousse",
-      price: "₦2,300",
+      price: 2300,
       rating: 4.4,
       image: ChocolateMousse,
       description: "Light and airy chocolate mousse with whipped cream.",
@@ -447,7 +447,7 @@ export const dummyMenuData = {
     {
       id: "desserts-7",
       name: "Profiteroles",
-      price: "₦2,700",
+      price: 2700,
       rating: 4.3,
       image: Profiteroles,
       description: "Cream-filled pastry puffs drizzled with chocolate sauce.",
@@ -455,7 +455,7 @@ export const dummyMenuData = {
     {
       id: "desserts-8",
       name: "Ricotta Pie",
-      price: "₦2,400",
+      price: 2400,
       rating: 4.2,
       image: RicottaPie,
       description: "Traditional ricotta pie with a light, flaky crust.",
@@ -465,7 +465,7 @@ export const dummyMenuData = {
     {
       id: "drinks-1",
       name: "Iced Latte",
-      price: "₦1,200",
+      price: 1200,
       rating: 4.0,
       image: IcedLatte,
       description: "Cool and refreshing espresso-based iced latte.",
@@ -473,7 +473,7 @@ export const dummyMenuData = {
     {
       id: "drinks-2",
       name: "Mojito",
-      price: "₦1,800",
+      price: 1800,
       rating: 4.3,
       image: Mojito,
       description: "Classic mojito with mint, lime, and rum.",
@@ -481,7 +481,7 @@ export const dummyMenuData = {
     {
       id: "drinks-3",
       name: "Smoothie",
-      price: "₦1,500",
+      price: 1500,
       rating: 4.2,
       image: Smoothie,
       description: "A blended mix of fruits for a refreshing drink.",
@@ -489,7 +489,7 @@ export const dummyMenuData = {
     {
       id: "drinks-4",
       name: "Iced Tea",
-      price: "₦800",
+      price: 800,
       rating: 4.0,
       image: IcedTea,
       description: "Chilled iced tea with a hint of lemon.",
@@ -497,7 +497,7 @@ export const dummyMenuData = {
     {
       id: "drinks-5",
       name: "Lemonade",
-      price: "₦900",
+      price: 900,
       rating: 4.1,
       image: Lemonade,
       description: "Freshly squeezed lemonade with a tangy kick.",
@@ -505,7 +505,7 @@ export const dummyMenuData = {
     {
       id: "drinks-6",
       name: "Espresso",
-      price: "₦1,000",
+      price: 1000,
       rating: 4.2,
       image: Espresso,
       description: "Strong and rich espresso shot to start your day.",
@@ -513,7 +513,7 @@ export const dummyMenuData = {
     {
       id: "drinks-7",
       name: "Margarita",
-      price: "₦2,200",
+      price: 2200,
       rating: 4.3,
       image: Margarita,
       description: "Refreshing margarita with tequila, lime, and a salt rim.",
@@ -521,7 +521,7 @@ export const dummyMenuData = {
     {
       id: "drinks-8",
       name: "Cappuccino",
-      price: "₦1,100",
+      price: 1100,
       rating: 4.2,
       image: Cappuccino,
       description:

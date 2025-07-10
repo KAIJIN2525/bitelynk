@@ -56,10 +56,23 @@ export const CartProvider = ({ children }) => {
   }, [cartItems]);
 
   // CALCULATE COST AND TOTAL ITEMS IN CART
-  const cartTotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  const cartTotal = cartItems.reduce((total, item) => {
+    console.log(
+      "Cart item:",
+      item.name,
+      "Price:",
+      item.price,
+      "Type:",
+      typeof item.price,
+      "Quantity:",
+      item.quantity
+    );
+    const price =
+      typeof item.price === "string"
+        ? parseFloat(item.price.replace(/[₦,]/g, ""))
+        : item.price;
+    return total + price * item.quantity;
+  }, 0);
   const totalItemsCount = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
