@@ -291,8 +291,8 @@ export const contactFormFields = [
     label: "Phone Number",
     name: "phone",
     type: "tel",
-    placeholder: "+91 12345 67890",
-    pattern: "[+]{0,1}[0-9]{10,13}",
+    placeholder: "+234 803 123 4567",
+    pattern: "^(+234|0)[789][01][0-9]{8}$",
     Icon: FiSmartphone,
   },
   {
