@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useCart } from "../../CartContext/CartContext";
 import { Link } from "react-router-dom";
-import { FaMinus, FaPlus, FaTrash, FaTimes } from "react-icons/fa";
+import { FaMinus, FaPlus, FaTrash, FaTimes, FaShoppingCart } from "react-icons/fa";
 import { formatPrice } from "../../utils/priceUtils";
 
 const CartPage = () => {
@@ -34,17 +34,33 @@ const CartPage = () => {
           </span>
         </h1>
 
-        {cartItems === 0 ? (
-          <div className="text-center animate-fade-in">
-            <p className="text-amber-100/80 text-lg mb-4">
-              Your cart is empty. Start shopping to add items to your cart!
-            </p>
-            <Link
-              to="/menu"
-              className="transition-all duration-300 text-amber-100 inline-flex items-center gap-2 hover:gap-3 hover:bg-amber-800/50 bg-amber-900/40 px-6 py-2 rounded-full font-cinzel text-sm uppercase "
-            >
-              Start Shopping
-            </Link>
+        {cartItems.length === 0 ? (
+          <div className="text-center animate-fade-in max-w-md mx-auto">
+            <div className="bg-amber-900/20 rounded-3xl p-12 border border-amber-800/30 backdrop-blur-sm">
+              {/* Empty Cart Icon */}
+              <div className="mb-6">
+                <FaShoppingCart className="text-6xl text-amber-300/50 mx-auto animate-pulse" />
+              </div>
+              
+              {/* Title */}
+              <h3 className="text-2xl font-dancingscript text-amber-100 mb-4">
+                Your Cart is Empty
+              </h3>
+              
+              {/* Description */}
+              <p className="text-amber-100/80 text-lg mb-8 font-cinzel leading-relaxed">
+                Discover our delicious menu and add your favorite dishes to get started!
+              </p>
+              
+              {/* CTA Button */}
+              <Link
+                to="/menu"
+                className="group transition-all duration-300 text-amber-100 inline-flex items-center gap-3 hover:gap-4 bg-gradient-to-r from-amber-900/60 to-amber-700/60 hover:from-amber-800/80 hover:to-amber-600/80 px-8 py-3 rounded-full font-cinzel text-lg uppercase tracking-wider border border-amber-600/30 hover:border-amber-500/50 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95"
+              >
+                <FaShoppingCart className="text-lg group-hover:animate-bounce" />
+                <span>Explore Menu</span>
+              </Link>
+            </div>
           </div>
         ) : (
           <>

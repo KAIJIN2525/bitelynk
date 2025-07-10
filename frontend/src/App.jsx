@@ -7,6 +7,7 @@ import Menu from "./pages/Menu/Menu";
 import Cart from "./pages/Cart/Cart";
 import SignUp from "./components/SignUp/SignUp";
 import { Toaster } from "sonner";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 const App = () => {
   return (
@@ -16,11 +17,14 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/menu" element={<Menu />} />
-        <Route path="/cart" element={<Cart />} />
 
         <Route path="/login" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
-        {/* Add more routes as needed */}
+        <Route path="/cart" element={
+          <PrivateRoute>
+            <Cart />
+          </PrivateRoute>
+        } />
       </Routes>
       <Toaster richColors />
     </>
