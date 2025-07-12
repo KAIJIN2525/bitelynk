@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema(
     rating: { type: Number, default: 0 },
     hearts: { type: Number, default: 0 },
     imageUrl: { type: String },
+    imagePublicId: { type: String }, // Added for Cloudinary
     total: { type: Number, default: 0 },
   },
   {

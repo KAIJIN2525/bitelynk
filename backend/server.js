@@ -3,6 +3,8 @@ import cors from "cors";
 import "dotenv/config";
 import { connectDB } from "./config/db.js";
 import userRoute from "./routes/user.route.js";
+import productRoute from "./routes/product.route.js";
+
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -30,6 +32,7 @@ connectDB();
 
 // Routes
 app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
