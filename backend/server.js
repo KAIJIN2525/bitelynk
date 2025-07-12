@@ -4,6 +4,7 @@ import "dotenv/config";
 import { connectDB } from "./config/db.js";
 import userRoute from "./routes/user.route.js";
 import productRoute from "./routes/product.route.js";
+import cartRoute from "./routes/cart.route.js";
 
 
 const app = express();
@@ -33,6 +34,7 @@ connectDB();
 // Routes
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
+app.use("/api/cart", cartRoute);
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
