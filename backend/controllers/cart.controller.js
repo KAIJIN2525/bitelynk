@@ -22,10 +22,14 @@ export const getCartItems = asyncHandler(async (req, res) => {
 // ADD ITEM TO CART
 export const addItemToCart = asyncHandler(async (req, res) => {
   const { productId, quantity } = req.body;
-  if (!productId || !quantity || quantity !== "number") {
+  
+  // Convert quantity to number if it's a string
+  const numericQuantity = Number(quantity);
+  
+  if (!productId || !quantity || isNaN(numericQuantity) || numericQuantity <= 0) {
     return res.status(400).json({
       success: false,
-      message: "Product ID and quantity are required",
+      message: "Product ID and valid positive quantity are required",
     });
   }
 
@@ -35,7 +39,7 @@ export const addItemToCart = asyncHandler(async (req, res) => {
   });
 
   if (cartItem) {
-    cartItem.quantity = Math.max(1, cartItem.quantity + quantity);
+    cartItem.quantity = Math.max(1, cartItem.quantity + numericQuantity);
 
     if (cartItem.quantity < 1) {
       await cartItem.remove();
@@ -66,7 +70,7 @@ export const addItemToCart = asyncHandler(async (req, res) => {
   cartItem = await CartItem.create({
     user: req.user._id,
     product: productId,
-    quantity,
+    quantity: numericQuantity,
   });
   await cartItem.populate("product");
   res.status(201).json({

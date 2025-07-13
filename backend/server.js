@@ -1,11 +1,11 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import "dotenv/config";
 import { connectDB } from "./config/db.js";
 import userRoute from "./routes/user.route.js";
 import productRoute from "./routes/product.route.js";
 import cartRoute from "./routes/cart.route.js";
-
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -25,6 +25,7 @@ app.use(cors(
 //   }
 )
 );
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
