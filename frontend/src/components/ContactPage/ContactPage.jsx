@@ -75,7 +75,7 @@ const ContactPage = () => {
 
               <div className="pl-12 relative z-10">
                 <p className="text-amber-100 font-light text-lg">
-                  Abimbola Way, , Lagos, 100263, Nigeria
+                  Abimbola Way, Lagos, 100263, Nigeria
                 </p>
               </div>
             </div>

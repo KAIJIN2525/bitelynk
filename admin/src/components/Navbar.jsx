@@ -1,8 +1,9 @@
 import React from "react";
-import { styles } from "../assets/dummyadmin";
+import { navLinks, styles } from "../assets/dummyadmin";
 import { GiChefToque } from "react-icons/gi";
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,9 +24,43 @@ const Navbar = () => {
         </button>
 
         <div className={styles.desktopMenu}>
-
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.name}
+              to={link.href}
+              className={({ isActive }) =>
+                `${styles.navLinkBase} ${
+                  isActive ? styles.navLinkActive : styles.navLinkInactive
+                }`
+              }
+            >
+              {link.icon}
+              <span>{link.name}</span>
+            </NavLink>
+          ))}
         </div>
       </div>
+
+      {/* FOR MOBILE MENU */}
+      {menuOpen && (
+        <div className={styles.mobileMenu}>
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.name}
+              to={link.href}
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) =>
+                `${styles.navLinkBase} ${
+                  isActive ? styles.navLinkActive : styles.navLinkInactive
+                }`
+              }
+            >
+              {link.icon}
+              <span>{link.name}</span>
+            </NavLink>
+          ))}
+        </div>
+      )}
     </nav>
   );
 };

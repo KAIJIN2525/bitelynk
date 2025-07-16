@@ -248,25 +248,25 @@ export const additionalData = [
 export const socialIcons = [
   {
     icon: FaFacebook,
-    link: "https://www.facebook.com/share/1DjbwhdR4z/",
+    link: "https://www.facebook.com/",
     color: "#3b5998",
     label: "Facebook",
   },
   {
     icon: FaInstagram,
-    link: "https://www.instagram.com/hexagondigitalservices?igsh=MW1nanQ2eXIycnRkZQ==",
+    link: "https://www.instagram.com/",
     color: "#E1306C",
     label: "Instagram",
   },
   {
     icon: FaXTwitter,
-    link: "https://x.com/HexagonDService?t=Vv5ReZAIbXONqkq_O0ksWQ&s=09",
+    link: "https://x.com/",
     color: "#000",
     label: "X",
   },
   {
     icon: FaYoutube,
-    link: "https://youtube.com/@hexagondigitalservices?si=UnBt0AHI-ChN5Mze",
+    link: "https://youtube.com/",
     color: "#FF0000",
     label: "Youtube",
   },
