@@ -1,0 +1,13 @@
+{
+  "firstName": "Chinedu",
+  "lastName": "Okwu",
+  "email": "chinedu.okwu@hotmail.com", 
+  "phone": "08177889900",
+  "address": "12 Gana Street, Maitama",
+  "city": "Abuja",
+  "state": "FCT",
+  "zip": "900001",
+  "country": "Nigeria",
+  "deliveryFee": 1200,
+  "paymentMethod": "paystack"
+}

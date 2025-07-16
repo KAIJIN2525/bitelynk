@@ -1,0 +1,13 @@
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "08012345678",
+  "address": "123 Ikorodu Road, Palmgroove",
+  "city": "Lagos",
+  "state": "Lagos",
+  "zip": "100001",
+  "country": "Nigeria",
+  "deliveryFee": 500,
+  "paymentMethod": "paystack"
+}

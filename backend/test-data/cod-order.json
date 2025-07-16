@@ -1,0 +1,13 @@
+{
+  "firstName": "Fatima",
+  "lastName": "Ibrahim", 
+  "email": "fatima.ibrahim@yahoo.com",
+  "phone": "07033445566",
+  "address": "78 Ahmadu Bello Way, Victoria Island",
+  "city": "Lagos",
+  "state": "Lagos", 
+  "zip": "101241",
+  "country": "Nigeria",
+  "deliveryFee": 1000,
+  "paymentMethod": "Cash on Delivery"
+}

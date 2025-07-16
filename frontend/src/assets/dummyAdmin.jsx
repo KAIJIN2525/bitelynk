@@ -130,3 +130,4 @@ const getPaymentMethodDetails = (method) => {
         const paymentMethod = getPaymentMethodDetails(order.paymentMethod);
         const status = statusStyles[order.status] || statusStyles.processing;
         const paymentStatus = statusStyles[order.paymentStatus] || statusStyles.pending;
+    })}
