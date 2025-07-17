@@ -37,6 +37,9 @@ export const styles = {
   ratingCell: "p-4",
   heartsCell: "p-4",
   heartsWrapper: "flex items-center gap-2 text-amber-400",
+  updateButton:
+    "text-amber-500 hover:text-amber-400 transition-colors p-2 rounded-lg hover:bg-amber-900/20",
+  
   deleteBtn:
     "text-amber-500 hover:text-red-400 transition-colors p-2 rounded-lg hover:bg-red-900/20",
   emptyState: "text-center py-12 text-amber-100/60 text-xl",
@@ -62,6 +65,8 @@ export const styles = {
     "absolute left-4 top-1/2 -translate-y-1/2 text-amber-500 text-lg sm:text-xl",
   actionBtn:
     "w-full bg-gradient-to-r from-amber-600 to-amber-700 text-white px-6 sm:px-8 py-4 sm:py-5 rounded-2xl font-bold text-base sm:text-lg transition-all hover:shadow-2xl hover:shadow-amber-500/30 hover:scale-[1.02] active:scale-95 mt-6",
+  secondaryBtn:
+    "w-full bg-transparent border-2 border-amber-500 text-white px-6 sm:px-8 py-4 sm:py-5 rounded-2xl font-bold text-base sm:text-lg transition-all hover:bg-amber-900/20 hover:shadow-2xl hover:shadow-amber-500/30 hover:scale-[1.02] active:scale-95 mt-6",
 
   // AdminNavbar styles
   navWrapper:

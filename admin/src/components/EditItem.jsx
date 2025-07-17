@@ -1,12 +1,13 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { styles } from "../assets/dummyadmin";
 import { FiHeart, FiStar, FiUpload } from "react-icons/fi";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { apiServices } from "../lib/services";
 import { toast } from "sonner";
 
-const AddItems = () => {
+const EditItem = () => {
+  // State for the form data
   const [productData, setProductData] = useState({
     name: "",
     description: "",
@@ -14,10 +15,14 @@ const AddItems = () => {
     price: "",
     rating: 0,
     hearts: 0,
-    image: null,
-    preview: "",
+    image: null, // This will hold the new file if selected
+    preview: "", // This will hold the image URL for display
   });
 
+  // Other necessary state
+  const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true); // For initial data fetch
+  const [hoverRating, setHoverRating] = useState(0);
   const [categories] = useState([
     "Breakfast",
     "Lunch",
@@ -28,9 +33,43 @@ const AddItems = () => {
     "Drinks",
   ]);
 
-  const [hoverRating, setHoverRating] = useState(0);
-  const [loading, setLoading] = useState(false);
+  // Hooks for routing
+  const { id } = useParams(); // Get product ID from URL
+  const navigate = useNavigate(); // To redirect after update
 
+  // --- 1. FETCH EXISTING PRODUCT DATA ---
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!id) return;
+      setInitialLoading(true);
+      try {
+        const response = await apiServices.products.getProduct(id);
+        if (response.success) {
+          const fetchedProduct = response.product;
+          // Populate the form with existing data
+          setProductData({
+            ...fetchedProduct,
+            image: null, // Reset image file input
+            preview: fetchedProduct.imageUrl, // Use existing imageUrl for preview
+          });
+        } else {
+          toast.error(
+            "Failed to fetch product: " + (response?.message || "Unknown error")
+          );
+          navigate("/list"); // Redirect if product not found
+        }
+      } catch (error) {
+        toast.error("Error fetching product details.");
+        console.error("Error fetching product:", error);
+        navigate("/list");
+      } finally {
+        setInitialLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id, navigate]); // Rerun if ID changes
+
+  // --- 2. FORM HANDLERS ---
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProductData((prevData) => ({
@@ -50,117 +89,85 @@ const AddItems = () => {
         toast.error("Please select a valid image file");
         return;
       }
+      // Set the new file and create a local URL for immediate preview
       setProductData((prevData) => ({
         ...prevData,
-        image: file,
-        preview: URL.createObjectURL(file),
+        image: file, // The new file object
+        preview: URL.createObjectURL(file), // The new preview URL
       }));
-      toast.success("Image ready for upload!");
     }
   };
 
   const handleRating = (rating) =>
     setProductData((prevData) => ({ ...prevData, rating }));
 
-  const validateForm = () => {
-    if (!productData.name.trim()) {
-      toast.error("Product name is required");
-      return false;
-    }
-    if (!productData.description.trim()) {
-      toast.error("Product description is required");
-      return false;
-    }
-    if (!productData.category) {
-      toast.error("Please select a category");
-      return false;
-    }
-    if (!productData.price || productData.price <= 0) {
-      toast.error("Please enter a valid price");
-      return false;
-    }
-    // ✅ FIX: Added validation for the image
-    if (!productData.image) {
-      toast.error("Product image is required");
-      return false;
-    }
-    return true;
-  };
-
+  // --- 3. HANDLE FORM SUBMISSION (UPDATE) ---
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    setLoading(true);
+    const loadingToast = toast.loading("Updating product...");
 
-    const loadingToast = toast.loading("Creating product...");
     try {
-      setLoading(true);
       const payload = new FormData();
+      // Append all fields except the ones we don't need
       Object.entries(productData).forEach(([key, value]) => {
-        if (key === "preview") return;
+        // Don't append the preview URL or the original imageUrl
+        if (key === "preview" || key === "imageUrl") return;
+
+        // IMPORTANT: Only append the 'image' if it's a new file.
+        // If `productData.image` is null, it means the user didn't select a new image.
+        if (key === "image" && !value) return;
+
         payload.append(key, value);
       });
 
-      const response = await apiServices.products.createProduct(payload);
+      const response = await apiServices.products.updateProduct(id, payload);
 
       if (response.success) {
         toast.dismiss(loadingToast);
-        toast.success("🎉 Product created successfully!", {
-          description: `${productData.name} has been added to your menu`,
-          duration: 4000,
-        });
-        handleClearForm(false); // Reset form without showing a toast
+        toast.success("✅ Product updated successfully!");
+        navigate("/list"); // Redirect back to the items list
+      } else {
+        throw new Error(response.message || "Update failed");
       }
     } catch (error) {
-      console.error("Error creating product:", error);
+      console.error("Error updating product:", error);
       toast.dismiss(loadingToast);
-      toast.error("Failed to create product", {
-        description: error.message || "Please try again later",
-        duration: 5000,
+      toast.error("Failed to update product", {
+        description: error.message || "Please try again.",
       });
     } finally {
       setLoading(false);
     }
   };
 
-  // Added a parameter to control if a toast is shown
-  const handleClearForm = (showToast = true) => {
-    setProductData({
-      name: "",
-      description: "",
-      category: "",
-      price: "",
-      rating: 0,
-      hearts: 0,
-      image: null,
-      preview: "",
-    });
-    if (showToast) {
-      toast.info("Form cleared");
-    }
-  };
+  // --- 4. RENDER THE COMPONENT ---
+  if (initialLoading) {
+    return (
+      <div className="text-center text-white p-10">Loading product data...</div>
+    );
+  }
 
   return (
     <div className={styles.formWrapper}>
       <div className="max-w-4xl mx-auto">
         <div className={styles.formCard}>
-          <h2 className={styles.formTitle}>Add New Item</h2>
+          <h2 className={styles.formTitle}>Edit "{productData.name}"</h2>
 
           <form className="space-y-6 sm:space-y-8" onSubmit={handleSubmit}>
             <div className={styles.uploadWrapper}>
-              {/* ✅ FIX: Changed htmlFor to match the input id */}
               <label htmlFor="image-upload" className={styles.uploadLabel}>
+                {/* This now correctly shows the existing image or the new preview */}
                 {productData.preview ? (
                   <img
                     src={productData.preview}
-                    alt="Preview"
+                    alt="Product Preview"
                     className={styles.previewImage}
                   />
                 ) : (
                   <div className="text-center p-4">
                     <FiUpload className={styles.uploadIcon} />
-                    <p className={styles.uploadText}>
-                      Click or drag to upload an image
-                    </p>
+                    <p className={styles.uploadText}>Upload an image</p>
                   </div>
                 )}
               </label>
@@ -174,6 +181,7 @@ const AddItems = () => {
             </div>
 
             <div className="space-y-4">
+              {/* All input fields now use `value={productData.fieldName || ''}` to avoid uncontrolled component warnings */}
               <div>
                 <label className="block mb-2 text-base sm:text-lg text-amber-400">
                   Product Name
@@ -181,10 +189,9 @@ const AddItems = () => {
                 <input
                   type="text"
                   name="name"
-                  value={productData.name}
+                  value={productData.name || ""}
                   onChange={handleInputChange}
                   className={styles.inputField}
-                  placeholder="Enter product name"
                 />
               </div>
 
@@ -194,10 +201,9 @@ const AddItems = () => {
                 </label>
                 <textarea
                   name="description"
-                  value={productData.description}
+                  value={productData.description || ""}
                   onChange={handleInputChange}
                   className={styles.inputField + " h-32 sm:h-40"}
-                  placeholder="Enter product description"
                 />
               </div>
 
@@ -208,7 +214,7 @@ const AddItems = () => {
                   </label>
                   <select
                     name="category"
-                    value={productData.category}
+                    value={productData.category || ""}
                     onChange={handleInputChange}
                     className={styles.inputField}
                   >
@@ -220,7 +226,6 @@ const AddItems = () => {
                     ))}
                   </select>
                 </div>
-
                 <div>
                   <label className="block mb-2 text-base sm:text-lg text-amber-400">
                     Price
@@ -230,12 +235,9 @@ const AddItems = () => {
                     <input
                       type="number"
                       name="price"
-                      value={productData.price}
+                      value={productData.price || ""}
                       onChange={handleInputChange}
                       className={styles.inputField + " pl-10 sm:pl-12"}
-                      min="0"
-                      step="0.01"
-                      placeholder="0.00"
                     />
                   </div>
                 </div>
@@ -248,42 +250,36 @@ const AddItems = () => {
                   </label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      // ✅ FIX: Added type="button"
                       <button
                         key={star}
                         type="button"
-                        className="text-2xl sm:text-3xl transition-transform hover:scale-110"
                         onClick={() => handleRating(star)}
                         onMouseEnter={() => setHoverRating(star)}
                         onMouseLeave={() => setHoverRating(0)}
                       >
                         <FiStar
-                          className={
+                          className={`text-2xl sm:text-3xl transition-transform hover:scale-110 ${
                             star <= (hoverRating || productData.rating)
                               ? "text-amber-400 fill-current"
                               : "text-amber-100/30"
-                          }
+                          }`}
                         />
                       </button>
                     ))}
                   </div>
                 </div>
-
                 <div>
                   <label className="block mb-2 text-base sm:text-lg text-amber-400">
                     Popularity (Hearts)
                   </label>
-                  {/* ✅ FIX: Simplified to just a number input */}
                   <div className={styles.relativeInput}>
                     <FiHeart className={styles.nairaIcon} />
                     <input
                       type="number"
                       name="hearts"
-                      value={productData.hearts}
+                      value={productData.hearts || 0}
                       onChange={handleInputChange}
                       className={styles.inputField + " pl-10 sm:pl-12"}
-                      placeholder="e.g., 150"
-                      min="0"
                     />
                   </div>
                 </div>
@@ -292,13 +288,17 @@ const AddItems = () => {
               <div className="flex justify-end gap-4 pt-4">
                 <button
                   type="button"
-                  onClick={() => handleClearForm(true)}
-                  className={styles.secondaryBtn} // Assuming you have a secondary button style
+                  onClick={() => navigate("/list")} // Cancel button
+                  className={styles.secondaryBtn}
                 >
-                  Clear Form
+                  Cancel
                 </button>
-                <button type="submit" disabled={loading} className={styles.actionBtn}>
-                  {loading ? "Adding..." : "Add To Menu"}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={styles.actionBtn}
+                >
+                  {loading ? "Saving..." : "Save Changes"}
                 </button>
               </div>
             </div>
@@ -309,4 +309,4 @@ const AddItems = () => {
   );
 };
 
-export default AddItems;
+export default EditItem;
