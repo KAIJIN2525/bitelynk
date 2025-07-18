@@ -2,11 +2,19 @@ import React from "react";
 import { navLinks, styles } from "../assets/dummyadmin";
 import { GiChefToque } from "react-icons/gi";
 import { useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
-import { NavLink } from "react-router-dom";
+import { FiMenu, FiX, FiLogOut } from "react-icons/fi";
+import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    toast.success("Logged out successfully");
+    navigate("/login");
+  };
 
   return (
     <nav className={styles.navWrapper}>
@@ -38,6 +46,13 @@ const Navbar = () => {
               <span>{link.name}</span>
             </NavLink>
           ))}
+          <button
+            onClick={handleLogout}
+            className={`${styles.navLinkBase} ${styles.navLinkInactive} hover:text-red-500`}
+          >
+            <FiLogOut />
+            <span>Logout</span>
+          </button>
         </div>
       </div>
 
@@ -59,6 +74,16 @@ const Navbar = () => {
               <span>{link.name}</span>
             </NavLink>
           ))}
+          <button
+            onClick={() => {
+              handleLogout();
+              setMenuOpen(false);
+            }}
+            className={`${styles.navLinkBase} ${styles.navLinkInactive} hover:text-red-500`}
+          >
+            <FiLogOut />
+            <span>Logout</span>
+          </button>
         </div>
       )}
     </nav>

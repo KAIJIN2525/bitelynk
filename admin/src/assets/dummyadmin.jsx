@@ -39,7 +39,7 @@ export const styles = {
   heartsWrapper: "flex items-center gap-2 text-amber-400",
   updateButton:
     "text-amber-500 hover:text-amber-400 transition-colors p-2 rounded-lg hover:bg-amber-900/20",
-  
+
   deleteBtn:
     "text-amber-500 hover:text-red-400 transition-colors p-2 rounded-lg hover:bg-red-900/20",
   emptyState: "text-center py-12 text-amber-100/60 text-xl",
@@ -95,18 +95,28 @@ export const iconMap = {
 
 // Status styles for order statuses
 export const statusStyles = {
+  pending: {
+    color: "text-gray-400",
+    bg: "bg-gray-900/20",
+    icon: "FiClock",
+    label: "Pending",
+    value: "pending",
+    hideLabel: false,
+  },
   processing: {
     color: "text-amber-400",
     bg: "bg-amber-900/20",
     icon: "FiClock",
     label: "Processing",
+    value: "processing",
     hideLabel: false,
   },
-  outForDelivery: {
+  out_for_delivery: {
     color: "text-blue-400",
     bg: "bg-blue-900/20",
     icon: "FiTruck",
     label: "Out for Delivery",
+    value: "out_for_delivery",
     hideLabel: false,
   },
   delivered: {
@@ -114,6 +124,15 @@ export const statusStyles = {
     bg: "bg-green-900/20",
     icon: "FiCheckCircle",
     label: "Delivered",
+    value: "delivered",
+    hideLabel: false,
+  },
+  cancelled: {
+    color: "text-red-400",
+    bg: "bg-red-900/20",
+    icon: "FiClock",
+    label: "Cancelled",
+    value: "cancelled",
     hideLabel: false,
   },
   succeeded: {
@@ -121,6 +140,7 @@ export const statusStyles = {
     bg: "bg-green-900/20",
     icon: "FiCheckCircle",
     label: "Completed",
+    value: "succeeded",
     hideLabel: true,
   },
 };
@@ -134,10 +154,6 @@ export const paymentMethodDetails = {
   card: {
     label: "Credit/Debit Card",
     class: "bg-blue-600/30 text-blue-300 border-blue-500/50",
-  },
-  upi: {
-    label: "UPI Payment",
-    class: "bg-purple-600/30 text-purple-300 border-purple-500/50",
   },
   default: {
     label: "Online",
