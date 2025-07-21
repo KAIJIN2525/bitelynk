@@ -1,24 +1,49 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
     username: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     email: {
-        type: String,
-        required: true,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     password: {
-        type: String,
-        required: true,
-        minlength: 6,
+      type: String,
+      required: true,
+      minlength: 6,
     },
-}, {
-    timestamps: true // Adds createdAt and updatedAt fields
-});
+    phone: {
+      type: String,
+      default: "",
+    },
+    address: {
+      street: {
+        type: String,
+        default: "",
+      },
+      city: {
+        type: String,
+        default: "",
+      },
+      state: {
+        type: String,
+        default: "",
+      },
+      postalCode: {
+        type: String,
+        default: "",
+      },
+    },
+  },
+  {
+    timestamps: true, // Adds createdAt and updatedAt fields
+  }
+);
 
 // Password hash middleware
 userSchema.pre("save", async function (next) {

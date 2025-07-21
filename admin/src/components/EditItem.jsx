@@ -43,24 +43,33 @@ const EditItem = () => {
       if (!id) return;
       setInitialLoading(true);
       try {
+        console.log("Fetching product with ID:", id); // Debug log
         const response = await apiServices.products.getProduct(id);
-        if (response.success) {
+        console.log("Product fetch response:", response); // Debug log
+
+        if (response && response.success && response.product) {
           const fetchedProduct = response.product;
           // Populate the form with existing data
           setProductData({
-            ...fetchedProduct,
+            name: fetchedProduct.name || "",
+            description: fetchedProduct.description || "",
+            category: fetchedProduct.category || "",
+            price: fetchedProduct.price?.toString() || "",
+            rating: fetchedProduct.rating || 0,
+            hearts: fetchedProduct.hearts || 0,
             image: null, // Reset image file input
-            preview: fetchedProduct.imageUrl, // Use existing imageUrl for preview
+            preview: fetchedProduct.imageUrl || "", // Use existing imageUrl for preview
           });
+          toast.success("Product loaded successfully");
         } else {
-          toast.error(
-            "Failed to fetch product: " + (response?.message || "Unknown error")
-          );
-          navigate("/list"); // Redirect if product not found
+          throw new Error(response?.message || "Failed to fetch product");
         }
       } catch (error) {
-        toast.error("Error fetching product details.");
         console.error("Error fetching product:", error);
+        toast.error(
+          "Error fetching product details: " +
+            (error.message || "Unknown error")
+        );
         navigate("/list");
       } finally {
         setInitialLoading(false);
@@ -145,6 +154,16 @@ const EditItem = () => {
   if (initialLoading) {
     return (
       <div className="text-center text-white p-10">Loading product data...</div>
+    );
+  }
+
+  // Defensive: If no id, show error and do not fetch
+  if (!id) {
+    return (
+      <div className="text-center text-red-500 p-10">
+        Error: No product ID provided. Please return to the product list and try
+        again.
+      </div>
     );
   }
 

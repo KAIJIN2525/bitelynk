@@ -6,8 +6,14 @@ import About from "./pages/AboutPage/AboutPage";
 import Menu from "./pages/Menu/Menu";
 import Cart from "./pages/Cart/Cart";
 import SignUp from "./components/SignUp/SignUp";
+import Profile from "./pages/Profile/Profile";
+import OrderDetails from "./pages/OrderDetails/OrderDetails";
+import OrderSuccess from "./pages/OrderSuccess/OrderSuccess";
 import { Toaster } from "sonner";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import VerifyPayment from "./pages/VerifyPaymentPage/VerifyPaymentPage";
+import CheckoutPage from "./pages/CheckoutPage/CheckoutPage";
+import MyOrdersPage from "./pages/MyOrdersPage/MyOrdersPage";
 
 const App = () => {
   return (
@@ -20,11 +26,55 @@ const App = () => {
 
         <Route path="/login" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/cart" element={
-          <PrivateRoute>
-            <Cart />
-          </PrivateRoute>
-        } />
+
+        {/* PAYMENT VERIFICATION */}
+        <Route path="/myorder/verify" element={<VerifyPayment />} />
+        <Route path="/order-success" element={<OrderSuccess />} />
+
+        <Route
+          path="/cart"
+          element={
+            <PrivateRoute>
+              <Cart />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/checkout"
+          element={
+            <PrivateRoute>
+              <CheckoutPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/myorders"
+          element={
+            <PrivateRoute>
+              <MyOrdersPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/order/:orderId"
+          element={
+            <PrivateRoute>
+              <OrderDetails />
+            </PrivateRoute>
+          }
+        />
       </Routes>
       <Toaster richColors />
     </>

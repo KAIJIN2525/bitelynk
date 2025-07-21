@@ -1,7 +1,9 @@
 import { Navigate } from "react-router-dom";
-const PrivateRoute = ({ children }) => {
-    const isAuthenticated = Boolean(localStorage.getItem("loginData"));
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
-}
+import { apiServices } from "../../lib/services";
 
-export default PrivateRoute
+const PrivateRoute = ({ children }) => {
+  const isAuthenticated = apiServices.auth.isAuthenticated();
+  return isAuthenticated ? children : <Navigate to="/" replace />;
+};
+
+export default PrivateRoute;

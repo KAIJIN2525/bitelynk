@@ -1,11 +1,26 @@
 import { useState } from "react";
 import { useCart } from "../../CartContext/CartContext";
 import { Link } from "react-router-dom";
-import { FaMinus, FaPlus, FaTrash, FaTimes, FaShoppingCart } from "react-icons/fa";
+import {
+  FaMinus,
+  FaPlus,
+  FaTrash,
+  FaTimes,
+  FaShoppingCart,
+  FaSpinner,
+} from "react-icons/fa";
 import { formatPrice } from "../../utils/priceUtils";
 
 const CartPage = () => {
-  const { cartItems, removeFromCart, updateQuantity, cartTotal } = useCart();
+  const {
+    cartItems,
+    removeFromCart,
+    updateQuantity,
+    cartTotal,
+    loading,
+    syncing,
+    isAuthenticated,
+  } = useCart();
 
   const totalPrice = cartItems.reduce((total, item) => {
     console.log(
@@ -34,6 +49,16 @@ const CartPage = () => {
           </span>
         </h1>
 
+        {/* Loading/Syncing indicator */}
+        {(loading || syncing) && (
+          <div className="fixed top-4 right-4 z-50">
+            <div className="bg-amber-900/90 text-amber-100 px-4 py-2 rounded-lg flex items-center gap-2 backdrop-blur-sm">
+              <FaSpinner className="animate-spin" />
+              <span>{syncing ? "Syncing cart..." : "Loading..."}</span>
+            </div>
+          </div>
+        )}
+
         {cartItems.length === 0 ? (
           <div className="text-center animate-fade-in max-w-md mx-auto">
             <div className="bg-amber-900/20 rounded-3xl p-12 border border-amber-800/30 backdrop-blur-sm">
@@ -41,17 +66,18 @@ const CartPage = () => {
               <div className="mb-6">
                 <FaShoppingCart className="text-6xl text-amber-300/50 mx-auto animate-pulse" />
               </div>
-              
+
               {/* Title */}
               <h3 className="text-2xl font-dancingscript text-amber-100 mb-4">
                 Your Cart is Empty
               </h3>
-              
+
               {/* Description */}
               <p className="text-amber-100/80 text-lg mb-8 font-cinzel leading-relaxed">
-                Discover our delicious menu and add your favorite dishes to get started!
+                Discover our delicious menu and add your favorite dishes to get
+                started!
               </p>
-              
+
               {/* CTA Button */}
               <Link
                 to="/menu"
@@ -93,7 +119,8 @@ const CartPage = () => {
                       onClick={() =>
                         updateQuantity(item.id, Math.max(1, item.quantity - 1))
                       }
-                      className="w-8 h-8 rounded-full bg-amber-900/40 flex items-center justify-center hover:bg-amber-800/50 transition-all duration-200 active:scale-95"
+                      disabled={loading || item.quantity <= 1}
+                      className="w-8 h-8 rounded-full bg-amber-900/40 flex items-center justify-center hover:bg-amber-800/50 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <FaMinus className="w-8 text-center text-amber-100 font-cinzel" />
                     </button>
@@ -103,7 +130,8 @@ const CartPage = () => {
 
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="w-8 h-8 rounded-full bg-amber-900/40 flex items-center justify-center hover:bg-amber-800/50 transition-all duration-200 active:scale-95"
+                      disabled={loading}
+                      className="w-8 h-8 rounded-full bg-amber-900/40 flex items-center justify-center hover:bg-amber-800/50 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <FaPlus className="w-8 text-center text-amber-100 font-cinzel" />
                     </button>
@@ -112,7 +140,8 @@ const CartPage = () => {
                   <div className="flex items-center justify-between w-full">
                     <button
                       onClick={() => removeFromCart(item.id)}
-                      className="bg-amber-900/40 px-3 py-1 rounded-full font-cinzel text-xs uppercase transition-all duration-300 hover:bg-amber-800/50 flex items-center gap-1 active:scale-95"
+                      disabled={loading}
+                      className="bg-amber-900/40 px-3 py-1 rounded-full font-cinzel text-xs uppercase transition-all duration-300 hover:bg-amber-800/50 flex items-center gap-1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <FaTrash className="w-4 h-4 text-amber-100" />
                       <span className="text-amber-100">Remove</span>
@@ -138,9 +167,21 @@ const CartPage = () => {
                   <h2 className="text-3xl font-dancingscript text-amber-100">
                     Total: {formatPrice(totalPrice)}
                   </h2>
-                  <button className="bg-amber-900/40 px-8 py-3 rounded-full font-cinzel uppercase tracking-wider hover:bg-amber-800/50 transition-all duration-300 text-amber-100 flex items-center gap-2 active:scale-95 ">
-                    <span>Checkout Now</span>
-                  </button>
+                  {isAuthenticated ? (
+                    <Link
+                      to="/checkout"
+                      className="bg-amber-900/40 px-8 py-3 rounded-full font-cinzel uppercase tracking-wider hover:bg-amber-800/50 transition-all duration-300 text-amber-100 flex items-center gap-2 active:scale-95"
+                    >
+                      <span>Checkout Now</span>
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/login"
+                      className="bg-amber-900/40 px-8 py-3 rounded-full font-cinzel uppercase tracking-wider hover:bg-amber-800/50 transition-all duration-300 text-amber-100 flex items-center gap-2 active:scale-95"
+                    >
+                      <span>Login to Checkout</span>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -149,15 +190,24 @@ const CartPage = () => {
       </div>
 
       {selectedImage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-amber-900/40 bg-opacity-75 backdrop-blur-xl p-4 overflow-auto" onClick={() => setSelectedImage(null)}>
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-amber-900/40 bg-opacity-75 backdrop-blur-xl p-4 overflow-auto"
+          onClick={() => setSelectedImage(null)}
+        >
           <div className="relative max-w-full max-h-full">
-            <img src={selectedImage} alt="Full View" className="max-w-[90vw] max-h-[90vh] rounded-lg object-contain"  />
+            <img
+              src={selectedImage}
+              alt="Full View"
+              className="max-w-[90vw] max-h-[90vh] rounded-lg object-contain"
+            />
 
-            <button onClick={() => setSelectedImage(null)} className="absolute top-1 right-1 bg-amber-900/80 rounded-full p-2 text-black hover:bg-amber-800/90 transition-transform duration-200 active:scale-90">
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-1 right-1 bg-amber-900/80 rounded-full p-2 text-black hover:bg-amber-800/90 transition-transform duration-200 active:scale-90"
+            >
               <FaTimes className="w-6 h-6" />
             </button>
           </div>
-
         </div>
       )}
     </div>

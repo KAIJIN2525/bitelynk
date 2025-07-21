@@ -60,6 +60,7 @@ const orderSchema = new mongoose.Schema({
     enum: [
       "pending",
       "processing",
+      "confirmed", // Added for payment confirmation
       "out_for_delivery",
       "delivered",
       "cancelled",

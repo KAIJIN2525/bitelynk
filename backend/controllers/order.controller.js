@@ -19,6 +19,7 @@ export const createOrder = asyncHandler(async (req, res) => {
       country,
       deliveryFee = 0,
       paymentMethod = "paystack",
+      deliveryNotes,
     } = req.body;
 
     // Validation
@@ -91,17 +92,20 @@ export const createOrder = asyncHandler(async (req, res) => {
       total,
       paymentStatus: "pending",
       orderStatus: "processing",
+      deliveryNotes: deliveryNotes || "",
     });
 
     await order.save();
 
     // Initialize Paystack payment
     if (paymentMethod === "paystack") {
+      const callbackUrl = `${process.env.FRONTEND_URL}/order-success?reference=${reference}`;
+      console.log("[Paystack] Using callback_url:", callbackUrl); // DEBUG LOG
       const paymentResult = await PaystackService.initializeTransaction({
         email,
         amount: total,
         reference,
-        callback_url: `${process.env.FRONTEND_URL}/order-success?reference=${reference}`,
+        callback_url: callbackUrl,
         metadata: {
           orderId: order._id.toString(),
           userId: req.user._id.toString(),
@@ -531,6 +535,74 @@ export const getAllOrders = asyncHandler(async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to fetch orders",
+      error: error.message,
+    });
+  }
+});
+
+// ADMIN PAYMENT VERIFICATION
+export const adminVerifyPayment = asyncHandler(async (req, res) => {
+  try {
+    const { id: orderId } = req.params;
+    const { reference } = req.body;
+
+    if (!reference) {
+      return res.status(400).json({
+        success: false,
+        message: "Payment reference is required",
+      });
+    }
+
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    // Use the existing verification service
+    const verification = await PaystackService.verifyPayment(reference);
+
+    if (!verification.success) {
+      return res.status(400).json({
+        success: false,
+        message: "Payment verification failed",
+        error: verification.error,
+      });
+    }
+
+    const { data } = verification;
+
+    // Update order based on verification result
+    if (data.status === "success") {
+      order.paymentStatus = "paid";
+      order.orderStatus = "confirmed";
+      order.paymentIntentId = data.reference;
+      order.transactionId = reference;
+    } else {
+      order.paymentStatus = "failed";
+      order.orderStatus = "cancelled";
+    }
+
+    await order.save();
+
+    res.status(200).json({
+      success: true,
+      message: `Payment ${data.status} - Order updated`,
+      order: {
+        id: order._id,
+        orderStatus: order.orderStatus,
+        paymentStatus: order.paymentStatus,
+        total: order.total,
+      },
+      payment: data,
+    });
+  } catch (error) {
+    console.error("Admin payment verification error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Payment verification failed",
       error: error.message,
     });
   }

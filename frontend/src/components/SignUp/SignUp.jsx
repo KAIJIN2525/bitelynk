@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { apiServices } from "../../lib/services";
 
 const AwesomeToast = ({ message, icon }) => {
   return (
@@ -14,6 +16,7 @@ const AwesomeToast = ({ message, icon }) => {
 const SignUp = () => {
   const [showToast, setShowToast] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -39,10 +42,49 @@ const SignUp = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setShowToast(true);
+
+    if (!formData.username || !formData.email || !formData.password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await apiServices.auth.register(
+        formData.username,
+        formData.email,
+        formData.password
+      );
+
+      if (response.success) {
+        toast.success("Account created successfully! Redirecting...");
+        setShowToast(true);
+
+        // Redirect to home page after successful registration
+        setTimeout(() => {
+          setShowToast(false);
+          navigate("/"); // Redirect to home page since user is now logged in
+        }, 2000);
+      } else {
+        toast.error(response.message || "Registration failed");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      toast.error(
+        error.response?.data?.message ||
+          "Registration failed. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -63,8 +105,9 @@ const SignUp = () => {
             placeholder="Username"
             value={formData.username}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg bg-[#2D1B0E] text-amber-100 placeholder:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 transition-all duration-200 hover:scale-[1.02]"
+            className="w-full px-4 py-3 rounded-lg bg-[#2D1B0E] text-amber-100 placeholder:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
             required
+            disabled={isLoading}
           />
           <input
             type="email"
@@ -72,24 +115,28 @@ const SignUp = () => {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg bg-[#2D1B0E] text-amber-100 placeholder:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 transition-all duration-200 hover:scale-[1.02]"
+            className="w-full px-4 py-3 rounded-lg bg-[#2D1B0E] text-amber-100 placeholder:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
             required
+            disabled={isLoading}
           />
 
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
               name="password"
-              placeholder="Password"
+              placeholder="Password (min. 6 characters)"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg bg-[#2D1B0E] text-amber-100 placeholder:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 transition-all duration-200 hover:scale-[1.02]"
+              className="w-full px-4 py-3 rounded-lg bg-[#2D1B0E] text-amber-100 placeholder:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
               required
+              disabled={isLoading}
+              minLength={6}
             />
             <button
               type="button"
               onClick={toggleShowPassword}
-              className="absolute right-3 top-3 text-amber-400 hover:text-amber-200 transition-colors"
+              className="absolute right-3 top-3 text-amber-400 hover:text-amber-200 transition-colors disabled:opacity-50"
+              disabled={isLoading}
             >
               {showPassword ? (
                 <FaEyeSlash className="text-2xl" />
@@ -101,9 +148,17 @@ const SignUp = () => {
 
           <button
             type="submit"
-            className="w-full py-3 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 text-[#2D1B0E] font-bold hover:scale-105 transition-transform hover:shadow-lg"
+            disabled={isLoading}
+            className="w-full py-3 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 text-[#2D1B0E] font-bold hover:scale-105 transition-transform hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
-            Sign Up
+            {isLoading ? (
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#2D1B0E] border-t-transparent"></div>
+                Creating Account...
+              </>
+            ) : (
+              "Sign Up"
+            )}
           </button>
         </form>
 

@@ -19,12 +19,14 @@ const List = () => {
     setLoading(true);
     try {
       const response = await apiServices.products.getAllProducts();
+      console.log("Products response:", response); // Debug log
       if (response.success) {
         toast.success("Products fetched successfully!");
-        setItems(response.products);
+        // The response.data contains the products array
+        setItems(response.data || []);
       } else {
         toast.error(
-          "Failed to fetch products:" + (response?.message || "Unknown error")
+          "Failed to fetch products: " + (response?.message || "Unknown error")
         );
       }
     } catch (error) {
@@ -137,13 +139,13 @@ const List = () => {
                     <td className="py-auto">
                       <div className="flex items-center justify-center p-4">
                         <button
-                          onClick={() => handleUpdate(item.id)}
+                          onClick={() => handleUpdate(item._id)}
                           className={styles.updateButton}
                         >
                           <FiEdit className="text-lg" />
                         </button>
                         <button
-                          onClick={() => handleDelete(item.id)}
+                          onClick={() => handleDelete(item._id)}
                           className={styles.deleteBtn}
                         >
                           <FiTrash2 className="text-lg" />

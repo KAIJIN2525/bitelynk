@@ -48,7 +48,7 @@ const Order = () => {
     try {
       console.log("Updating order:", orderId, "to status:", newStatus); // Debug log
       const response = await apiServices.orders.updateOrderStatus(orderId, {
-        status: newStatus,
+        orderStatus: newStatus,
       });
       console.log("Update response:", response); // Debug log
 
@@ -66,6 +66,43 @@ const Order = () => {
     } catch (error) {
       console.error("Error updating order status:", error);
       toast.error("Error updating order status");
+    }
+  };
+
+  const handleVerifyPayment = async (orderId, transactionId) => {
+    try {
+      console.log(
+        "Verifying payment for order:",
+        orderId,
+        "reference:",
+        transactionId
+      );
+      const response = await apiServices.orders.verifyPayment(
+        orderId,
+        transactionId
+      );
+      console.log("Payment verification response:", response);
+
+      if (response.success) {
+        // Update the order in the state with new payment status
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id === orderId
+              ? {
+                  ...order,
+                  paymentStatus: response.order?.paymentStatus || "paid",
+                  orderStatus: response.order?.orderStatus || order.orderStatus,
+                }
+              : order
+          )
+        );
+        toast.success(response.message || "Payment verified successfully");
+      } else {
+        toast.error(response.message || "Failed to verify payment");
+      }
+    } catch (error) {
+      console.error("Error verifying payment:", error);
+      toast.error("Error verifying payment");
     }
   };
 
@@ -218,27 +255,23 @@ const Order = () => {
                             )}
                           </div>
                         </td>
-                        <td
-                          className={`${tableClasses.cellBase} text-center text-amber-300 font-medium`}
-                        >
+                        <td className="text-center text-amber-300 font-medium">
                           {order.items?.reduce(
                             (total, item) => total + item.quantity,
                             0
                           ) || 0}
                         </td>
-                        <td
-                          className={`${tableClasses.cellBase} text-amber-300 font-medium`}
-                        >
+                        <td className="text-amber-300 font-medium">
                           {formatPrice(order.total || 0)}
                         </td>
-                        <td className={`${tableClasses.cellBase}`}>
+                        <td>
                           <span
                             className={`px-3 py-1 rounded-full text-xs font-medium border truncate ${paymentStyle.class}`}
                           >
                             {paymentStyle.label}
                           </span>
                         </td>
-                        <td className={`${tableClasses.cellBase}`}>
+                        <td>
                           <div
                             className={`flex items-center space-x-2 px-3 py-1 rounded-full ${statusStyle.bg}`}
                           >
@@ -252,40 +285,60 @@ const Order = () => {
                             </span>
                           </div>
                         </td>
-                        <td className={`${tableClasses.cellBase}`}>
-                          <div className="relative">
-                            <select
-                              value={order.orderStatus || "pending"}
-                              onChange={(e) =>
-                                handleUpdateStatus(order.id, e.target.value)
-                              }
-                              className="px-3 py-1 bg-[#3a2b2b]/50 border border-amber-500/20 rounded-lg text-sm text-amber-100 focus:outline-none focus:border-amber-400 hover:border-amber-300 transition-colors cursor-pointer appearance-none pr-8"
-                            >
-                              {Object.values(statusStyles).map((status) => (
-                                <option
-                                  key={status.value}
-                                  value={status.value}
-                                  className="bg-[#3a2b2b] text-amber-100 hover:bg-[#4a3b3b]"
-                                >
-                                  {status.label}
-                                </option>
-                              ))}
-                            </select>
-                            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                              <svg
-                                className="w-4 h-4 text-amber-400"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                        <td>
+                          <div className="flex flex-col gap-2">
+                            {/* Status Update Dropdown */}
+                            <div className="relative">
+                              <select
+                                value={order.orderStatus || "pending"}
+                                onChange={(e) =>
+                                  handleUpdateStatus(order.id, e.target.value)
+                                }
+                                className="px-3 py-1 bg-[#3a2b2b]/50 border border-amber-500/20 rounded-lg text-sm text-amber-100 focus:outline-none focus:border-amber-400 hover:border-amber-300 transition-colors cursor-pointer appearance-none pr-8"
                               >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M19 9l-7 7-7-7"
-                                />
-                              </svg>
+                                {Object.values(statusStyles).map((status) => (
+                                  <option
+                                    key={status.value}
+                                    value={status.value}
+                                    className="bg-[#3a2b2b] text-amber-100 hover:bg-[#4a3b3b]"
+                                  >
+                                    {status.label}
+                                  </option>
+                                ))}
+                              </select>
+                              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                <svg
+                                  className="w-4 h-4 text-amber-400"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 9l-7 7-7-7"
+                                  />
+                                </svg>
+                              </div>
                             </div>
+
+                            {/* Payment Verification Button */}
+                            {order.paymentMethod !== "Cash on Delivery" &&
+                              order.transactionId && (
+                                <button
+                                  onClick={() =>
+                                    handleVerifyPayment(
+                                      order.id,
+                                      order.transactionId
+                                    )
+                                  }
+                                  className="px-3 py-1 bg-green-600/20 border border-green-500/30 rounded-lg text-sm text-green-400 hover:bg-green-600/30 hover:border-green-400 transition-colors"
+                                  title="Verify Payment"
+                                >
+                                  Verify Payment
+                                </button>
+                              )}
                           </div>
                         </td>
                       </tr>

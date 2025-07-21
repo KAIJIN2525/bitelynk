@@ -107,19 +107,59 @@ export const createProduct = async (req, res) => {
 // GET ALL PRODUCTS
 export const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+    const { category, search, limit, sort } = req.query;
+
+    // Build query
+    let query = {};
+
+    // Filter by category
+    if (category) {
+      query.category = { $regex: category, $options: "i" };
+    }
+
+    // Search in name and description
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    // Build sort options
+    let sortOptions = { createdAt: -1 }; // Default sort
+    if (sort === "price_asc") {
+      sortOptions = { price: 1 };
+    } else if (sort === "price_desc") {
+      sortOptions = { price: -1 };
+    } else if (sort === "rating") {
+      sortOptions = { rating: -1 };
+    } else if (sort === "name") {
+      sortOptions = { name: 1 };
+    }
+
+    // Execute query
+    let productsQuery = Product.find(query).sort(sortOptions);
+
+    // Apply limit if specified
+    if (limit) {
+      productsQuery = productsQuery.limit(parseInt(limit));
+    }
+
+    const products = await productsQuery;
 
     const formattedProducts = products.map((product) => ({
       id: product._id,
+      _id: product._id, // Add this line for compatibility
       name: product.name,
       description: product.description,
       category: product.category,
       price: product.price,
       total: product.total,
-      ratings: product.rating,
+      rating: product.rating, // Fixed: was "ratings"
       hearts: product.hearts,
-      imageUrl: product.imageUrl, // Direct Cloudinary URL
-      imagePublicId: product.imagePublicId, // For optimization
+      image: product.imageUrl, // Use "image" to match frontend expectations
+      imageUrl: product.imageUrl, // Keep both for compatibility
+      imagePublicId: product.imagePublicId,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     }));
@@ -127,7 +167,7 @@ export const getAllProducts = async (req, res) => {
     res.status(200).json({
       success: true,
       count: products.length,
-      products: formattedProducts,
+      data: formattedProducts, // Changed from "products" to "data"
     });
   } catch (error) {
     console.error("Get products error:", error);

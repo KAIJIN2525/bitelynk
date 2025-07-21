@@ -12,21 +12,29 @@ export const getCartItems = asyncHandler(async (req, res) => {
     product: item.product,
     quantity: item.quantity,
   }));
+
   res.status(200).json({
     success: true,
     count: cartItems.length,
-    cartItems: formattedCartItems,
+    data: {
+      items: formattedCartItems,
+    },
   });
 });
 
 // ADD ITEM TO CART
 export const addItemToCart = asyncHandler(async (req, res) => {
   const { productId, quantity } = req.body;
-  
+
   // Convert quantity to number if it's a string
   const numericQuantity = Number(quantity);
-  
-  if (!productId || !quantity || isNaN(numericQuantity) || numericQuantity <= 0) {
+
+  if (
+    !productId ||
+    !quantity ||
+    isNaN(numericQuantity) ||
+    numericQuantity <= 0
+  ) {
     return res.status(400).json({
       success: false,
       message: "Product ID and valid positive quantity are required",
@@ -46,7 +54,7 @@ export const addItemToCart = asyncHandler(async (req, res) => {
       return res.status(200).json({
         success: true,
         message: "Item removed from cart",
-        product: {
+        data: {
           _id: cartItem._id.toString(),
           product: cartItem.product,
           quantity: 0,
@@ -59,7 +67,7 @@ export const addItemToCart = asyncHandler(async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Item quantity updated",
-      product: {
+      data: {
         _id: cartItem._id.toString(),
         product: cartItem.product,
         quantity: cartItem.quantity,
@@ -76,7 +84,7 @@ export const addItemToCart = asyncHandler(async (req, res) => {
   res.status(201).json({
     success: true,
     message: "Item added to cart",
-    product: {
+    data: {
       _id: cartItem._id.toString(),
       product: cartItem.product,
       quantity: cartItem.quantity,
@@ -86,25 +94,35 @@ export const addItemToCart = asyncHandler(async (req, res) => {
 
 // UPDATE ITEM QUANTITY IN CART
 export const updateCartItemQuantity = asyncHandler(async (req, res) => {
-  const { quantity } = req.body;
+  const { productId, quantity } = req.body;
+
+  if (!productId || !quantity || quantity <= 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Product ID and valid positive quantity are required",
+    });
+  }
 
   const cartItem = await CartItem.findOne({
-    _id: req.params.id,
+    product: productId,
     user: req.user._id,
   });
+
   if (!cartItem) {
     return res.status(404).json({
       success: false,
       message: "Cart item not found",
     });
   }
+
   cartItem.quantity = Math.max(1, quantity);
   await cartItem.save();
   await cartItem.populate("product");
+
   res.status(200).json({
     success: true,
     message: "Cart item quantity updated",
-    product: {
+    data: {
       _id: cartItem._id.toString(),
       product: cartItem.product,
       quantity: cartItem.quantity,
@@ -114,10 +132,13 @@ export const updateCartItemQuantity = asyncHandler(async (req, res) => {
 
 // REMOVE ITEM FROM CART
 export const removeItemFromCart = asyncHandler(async (req, res) => {
+  const { productId } = req.params;
+
   const cartItem = await CartItem.findOne({
-    _id: req.params.id,
+    product: productId,
     user: req.user._id,
   });
+
   if (!cartItem) {
     return res.status(404).json({
       success: false,
@@ -129,7 +150,9 @@ export const removeItemFromCart = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Cart item removed",
-    _id: req.params.id,
+    data: {
+      productId: productId,
+    },
   });
 });
 

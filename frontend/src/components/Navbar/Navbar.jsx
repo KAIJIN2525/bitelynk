@@ -16,41 +16,90 @@ import {
 } from "react-icons/fi";
 import { MdRestaurantMenu } from "react-icons/md";
 import { useCart } from "../../CartContext/CartContext";
+import { apiServices } from "../../lib/services";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { totalItems } = useCart();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // COMBINE UPDATING LOGIN MODAL AND AUTH STATUS ON LOCATION CHANGE
-
+  // Check authentication status
   const [isAuthenticated, setIsAuthenticated] = useState(
-    Boolean(localStorage.getItem("loginData"))
+    apiServices.auth.isAuthenticated()
   );
 
+  // Update auth status when location changes or component mounts
+  useEffect(() => {
+    const checkAuth = async () => {
+      const isAuth = apiServices.auth.isAuthenticated();
+      setIsAuthenticated(isAuth);
+
+      // Fetch user data if authenticated
+      if (isAuth) {
+        try {
+          const response = await apiServices.user.getProfile();
+          if (response.success) {
+            setUser(response.user || response.data);
+          }
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+          // If profile fetch fails, user might be logged out
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
+    };
+
+    checkAuth();
+
+    // Listen for storage changes (e.g., when user logs in/out in another tab)
+    window.addEventListener("storage", checkAuth);
+
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+    };
+  }, [location]);
+
   const handleLoginSuccess = () => {
-    localStorage.setItem("loginData", JSON.stringify({ loggedIn: true }));
     setIsAuthenticated(true);
     setShowLoginModal(false);
     navigate("/");
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("loginData");
+    apiServices.auth.logout();
     setIsAuthenticated(false);
+    setUser(null);
+  };
+
+  // Get user initials from name
+  const getUserInitials = () => {
+    if (!user) return "U";
+
+    const firstName = user.firstName || user.name?.split(" ")[0] || "";
+    const lastName = user.lastName || user.name?.split(" ")[1] || "";
+
+    const firstInitial = firstName.charAt(0).toUpperCase();
+    const lastInitial = lastName.charAt(0).toUpperCase();
+
+    return lastInitial ? `${firstInitial}${lastInitial}` : firstInitial || "U";
   };
 
   // EXTRACT DESKTOP AUTH BUTTON
   const renderDesktopAuthButton = () => {
     return isAuthenticated ? (
       <button
-        onClick={handleLogout}
-        className="px-3 md:px-3 lg:px-6 py-1.5 md:py-2 lg:py-3 bg-gradient-to-br from-red-600 to-red-700 text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-red-600/40 transition-all transform hover:scale-[1.02] border-2 border-red-600/20 flex items-center space-x-2 shadow-md shadow-red-900/20 text-xs md:text-sm lg:text-sm"
+        onClick={() => navigate("/profile")}
+        className="px-3 py-1.5 md:py-2 lg:py-3 bg-gradient-to-br from-amber-600 to-amber-700 text-[#2D1B0E] rounded-full font-bold hover:shadow-lg hover:shadow-amber-600/40 transition-all transform hover:scale-[1.02] border-2 border-amber-600/20 flex items-center space-x-2 shadow-md shadow-amber-900/20 text-xs md:text-sm lg:text-sm"
       >
-        <FiLogOut className="text-base md:text-lg lg:text-lg" />
-        <span>Logout</span>
+        <div className="w-6 h-6 bg-[#2D1B0E] text-amber-400 rounded-full flex items-center justify-center text-xs font-bold">
+          {getUserInitials()}
+        </div>
+        
       </button>
     ) : (
       <button
@@ -67,11 +116,13 @@ const Navbar = () => {
   const renderMobileAuthButton = () => {
     return isAuthenticated ? (
       <button
-        onClick={handleLogout}
+        onClick={() => navigate("/profile")}
         className="p-2 text-amber-100 rounded-xl transition-all relative border-2 border-amber-900/30 hover:border-amber-600/50 hover:bg-amber-900/20 hover:shadow-lg hover:shadow-amber-500/30 shadow-md shadow-amber-900/20"
-        title="Logout"
+        title="Profile"
       >
-        <FiUserCheck className="w-6 h-6" />
+        <div className="w-6 h-6 bg-amber-400 text-[#2D1B0E] rounded-full flex items-center justify-center text-xs font-bold">
+          {getUserInitials()}
+        </div>
       </button>
     ) : (
       <button
@@ -169,6 +220,17 @@ const Navbar = () => {
                   </span>
                 )}
               </NavLink>
+
+              {/* Profile Link - Only show when authenticated */}
+              {/* {isAuthenticated && (
+                <NavLink
+                  to="/profile"
+                  className="p-2 md:p-2.5 lg:p-3 text-amber-100 rounded-xl transition-all relative border-2 border-amber-900/30 hover:border-amber-600/50 group-hover:bg-amber-900/20  hover:shadow-lg hover:shadow-amber-500/30 shadow-md shadow-amber-900/20"
+                >
+                  <FiUser className="text-base md:text-lg lg:text-lg" />
+                </NavLink>
+              )} */}
+
               {/* DESKTOP AUTH BUTTON */}
               {renderDesktopAuthButton()}
             </div>
@@ -233,6 +295,30 @@ const Navbar = () => {
                 <span>{link.name}</span>
               </NavLink>
             ))}
+
+            {/* Profile Link - Only show when authenticated */}
+            {isAuthenticated && (
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  `flex px-4 py-3 text-sm text-amber-100 rounded-xl transition-all items-center ${
+                    isActive
+                      ? "bg-amber-900/20 text-amber-400"
+                      : "text-amber-100 hover:bg-amber-600/20"
+                  } border-b-2 ${
+                    isActive
+                      ? "border-amber-600/50"
+                      : "border-b border-amber-900/30"
+                  }`
+                }
+                onClick={() => setIsOpen(false)}
+              >
+                <span className="mr-2 text-base text-amber-500">
+                  <FiUser />
+                </span>
+                <span>Profile</span>
+              </NavLink>
+            )}
           </div>
         </div>
       )}

@@ -8,6 +8,7 @@ import {
   updateOrderStatus,
   updateOrder,
   getAllOrders,
+  adminVerifyPayment,
 } from "../controllers/order.controller.js";
 import authMiddleware from "../middleware/auth.js";
 
@@ -28,6 +29,7 @@ router.get("/user/:id", getOrderById); // Users get specific order
 router.get("/admin/all", getAllOrders); // Admin gets all orders
 router.put("/admin/:id/status", updateOrderStatus); // Admin updates order status
 router.put("/admin/:id", updateOrder); // Admin updates order details
+router.post("/admin/:id/verify-payment", adminVerifyPayment); // Admin verifies payment
 
 // PAYMENT ROUTES
 router.get("/verify/:reference", verifyPayment); // Verify payment status

@@ -12,8 +12,19 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
-router.route("/").get(getCartItems).post(addItemToCart);
-router.route("/clear").post(clearCart);
-router.route("/:id").put(updateCartItemQuantity).delete(removeItemFromCart);
+// Get cart items
+router.get("/", getCartItems);
+
+// Add item to cart
+router.post("/add", addItemToCart);
+
+// Update cart item quantity
+router.put("/update", updateCartItemQuantity);
+
+// Remove item from cart by product ID
+router.delete("/remove/:productId", removeItemFromCart);
+
+// Clear entire cart
+router.delete("/clear", clearCart);
 
 export default router;

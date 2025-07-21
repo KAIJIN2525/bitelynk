@@ -55,12 +55,12 @@ const Banner = () => {
             </form>
 
             <div className="flex flex-wrap gap-4 justify-center md:justify-start mt-6">
-              <button className="group flex items-center gap-3 bg-amber-800/30 hover:bg-amber-800/50 px-6 py-3 rounded-xl transition-all duration-300 border-2 border-amber-700/50 hover:border-amber-400 backdrop-blur-sm ">
+              {/* <button className="group flex items-center gap-3 bg-amber-800/30 hover:bg-amber-800/50 px-6 py-3 rounded-xl transition-all duration-300 border-2 border-amber-700/50 hover:border-amber-400 backdrop-blur-sm ">
                 <FaDownload className="text-amber-400 text-xl group-hover:animate-bounce" />
                 <span className="text-amber-200 font-semibold group-hover:text-amber-100">
                   Download App
                 </span>
-              </button>
+              </button> */}
 
               <button
                 onClick={() => setShowVideo(true)}
