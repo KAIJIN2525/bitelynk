@@ -5,6 +5,7 @@ import { FaMinus, FaPlus, FaSpinner } from "react-icons/fa";
 import "./OurMenu.css";
 import { formatPrice } from "../../utils/priceUtils";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 const categories = [
   "Breakfast",
@@ -103,15 +104,31 @@ const OurMenu = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+            <motion.div
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.2,
+                  },
+                },
+              }}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
+            >
               {displayItems.map((item, i) => {
                 const quantity = getQuantity(item.id);
 
                 return (
-                  <div
+                  <motion.div
                     key={item.id}
+                    variants={{
+                      hidden: { opacity: 0, y: 50 },
+                      show: { opacity: 1, y: 0 },
+                    }}
                     className="relative bg-amber-900/20 rounded-2xl overflow-hidden border border-amber-800/30  backdrop-blur-sm flex flex-col transition-all duration-500"
-                    style={{ "--index": i }}
                   >
                     <div className="relative h-48 sm:h-56 md:h-60 flex items-center justify-center bg-black/10">
                       <img
@@ -174,10 +191,10 @@ const OurMenu = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           </>
         )}
       </div>

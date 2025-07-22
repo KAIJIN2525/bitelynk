@@ -30,6 +30,17 @@ export const loginUser = async (req, res) => {
   }
 };
 
+// GET ALL USERS (ADMIN)
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).select("-password");
+    res.status(200).json({ success: true, data: users });
+  } catch (error) {
+    console.error("Get all users error:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 // CREATE TOKEN
 const createToken = (id, email) => {
   return jwt.sign({ id, email }, process.env.JWT_SECRET, {

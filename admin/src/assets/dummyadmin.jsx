@@ -7,10 +7,19 @@ import {
   FiClock,
 } from "react-icons/fi";
 
+import {
+  FiPlusCircle,
+  FiList,
+  FiPackage,
+  FiUsers,
+  FiUser,
+} from "react-icons/fi";
+
 export const navLinks = [
-  { name: "Add Items", href: "/", icon: <FiPlusCircle /> },
-  { name: "List Items", href: "/list", icon: <FiList /> },
+  { name: "Products", href: "/products", icon: <FiList /> },
   { name: "Orders", href: "/orders", icon: <FiPackage /> },
+  { name: "Users", href: "/users", icon: <FiUsers /> },
+  { name: "Profile", href: "/profile", icon: <FiUser /> },
 ];
 
 // LIST CSS

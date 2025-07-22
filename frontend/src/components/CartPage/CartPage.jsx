@@ -10,6 +10,7 @@ import {
   FaSpinner,
 } from "react-icons/fa";
 import { formatPrice } from "../../utils/priceUtils";
+import { motion, AnimatePresence } from "framer-motion";
 
 const CartPage = () => {
   const {
@@ -59,134 +60,165 @@ const CartPage = () => {
           </div>
         )}
 
-        {cartItems.length === 0 ? (
-          <div className="text-center animate-fade-in max-w-md mx-auto">
-            <div className="bg-amber-900/20 rounded-3xl p-12 border border-amber-800/30 backdrop-blur-sm">
-              {/* Empty Cart Icon */}
-              <div className="mb-6">
-                <FaShoppingCart className="text-6xl text-amber-300/50 mx-auto animate-pulse" />
-              </div>
-
-              {/* Title */}
-              <h3 className="text-2xl font-dancingscript text-amber-100 mb-4">
-                Your Cart is Empty
-              </h3>
-
-              {/* Description */}
-              <p className="text-amber-100/80 text-lg mb-8 font-cinzel leading-relaxed">
-                Discover our delicious menu and add your favorite dishes to get
-                started!
-              </p>
-
-              {/* CTA Button */}
-              <Link
-                to="/menu"
-                className="group transition-all duration-300 text-amber-100 inline-flex items-center gap-3 hover:gap-4 bg-gradient-to-r from-amber-900/60 to-amber-700/60 hover:from-amber-800/80 hover:to-amber-600/80 px-8 py-3 rounded-full font-cinzel text-lg uppercase tracking-wider border border-amber-600/30 hover:border-amber-500/50 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95"
-              >
-                <FaShoppingCart className="text-lg group-hover:animate-bounce" />
-                <span>Explore Menu</span>
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="group bg-amber-900/20 p-4 rounded-2xl border-4 border-dashed border-amber-500 backdrop-blur-sm flex flex-col items-center gap-4 transition-all duration-300 hover:border-solid hover:shadow-xl hover:shadow-amber-900/10 transform hover:-translate-x-1 animate-fade-in"
-                >
-                  <div
-                    className="w-24 h-24 flex-shrink-0 cursor-pointer relative overflow-hidden rounded-lg transition-transform duration-300"
-                    onClick={() => setSelectedImage(item.image)}
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div className="w-full text-center">
-                    <h3 className="text-xl font-dancingscript text-amber-100">
-                      {item.name}
-                    </h3>
-                    <p className="text-amber-100/80 font-cinzel mt-1 text-center">
-                      {formatPrice(item.price)}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() =>
-                        updateQuantity(item.id, Math.max(1, item.quantity - 1))
-                      }
-                      disabled={loading || item.quantity <= 1}
-                      className="w-8 h-8 rounded-full bg-amber-900/40 flex items-center justify-center hover:bg-amber-800/50 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <FaMinus className="w-8 text-center text-amber-100 font-cinzel" />
-                    </button>
-                    <span className="w-8 text-center text-amber-100 font-cinzel">
-                      {item.quantity}
-                    </span>
-
-                    <button
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      disabled={loading}
-                      className="w-8 h-8 rounded-full bg-amber-900/40 flex items-center justify-center hover:bg-amber-800/50 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <FaPlus className="w-8 text-center text-amber-100 font-cinzel" />
-                    </button>
-                  </div>
-
-                  <div className="flex items-center justify-between w-full">
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      disabled={loading}
-                      className="bg-amber-900/40 px-3 py-1 rounded-full font-cinzel text-xs uppercase transition-all duration-300 hover:bg-amber-800/50 flex items-center gap-1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <FaTrash className="w-4 h-4 text-amber-100" />
-                      <span className="text-amber-100">Remove</span>
-                    </button>
-
-                    <div className="text-sm font-dancingscript text-amber-300">
-                      {formatPrice(item.price * item.quantity)}
-                    </div>
-                  </div>
+        <AnimatePresence>
+          {cartItems.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-center max-w-md mx-auto"
+            >
+              <div className="bg-amber-900/20 rounded-3xl p-12 border border-amber-800/30 backdrop-blur-sm">
+                {/* Empty Cart Icon */}
+                <div className="mb-6">
+                  <FaShoppingCart className="text-6xl text-amber-300/50 mx-auto animate-pulse" />
                 </div>
-              ))}
-            </div>
-            <div className="mt-12 pt-8 border-t border-amber-800/30 animate-fade-in-up">
-              <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+
+                {/* Title */}
+                <h3 className="text-2xl font-dancingscript text-amber-100 mb-4">
+                  Your Cart is Empty
+                </h3>
+
+                {/* Description */}
+                <p className="text-amber-100/80 text-lg mb-8 font-cinzel leading-relaxed">
+                  Discover our delicious menu and add your favorite dishes to get
+                  started!
+                </p>
+
+                {/* CTA Button */}
                 <Link
                   to="/menu"
-                  className="bg-amber-900/40 px-8 py-3 rounded-full font-cinzel uppercase tracking-wider hover:bg-amber-800/50 transition-all duration-300 text-amber-100 inline-flex items-center gap-2 active:scale-95 hover:gap-3"
+                  className="group transition-all duration-300 text-amber-100 inline-flex items-center gap-3 hover:gap-4 bg-gradient-to-r from-amber-900/60 to-amber-700/60 hover:from-amber-800/80 hover:to-amber-600/80 px-8 py-3 rounded-full font-cinzel text-lg uppercase tracking-wider border border-amber-600/30 hover:border-amber-500/50 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95"
                 >
-                  <span>Continue Shopping</span>
+                  <FaShoppingCart className="text-lg group-hover:animate-bounce" />
+                  <span>Explore Menu</span>
                 </Link>
-
-                <div className="flex items-center gap-8">
-                  <h2 className="text-3xl font-dancingscript text-amber-100">
-                    Total: {formatPrice(totalPrice)}
-                  </h2>
-                  {isAuthenticated ? (
-                    <Link
-                      to="/checkout"
-                      className="bg-amber-900/40 px-8 py-3 rounded-full font-cinzel uppercase tracking-wider hover:bg-amber-800/50 transition-all duration-300 text-amber-100 flex items-center gap-2 active:scale-95"
-                    >
-                      <span>Checkout Now</span>
-                    </Link>
-                  ) : (
-                    <Link
-                      to="/login"
-                      className="bg-amber-900/40 px-8 py-3 rounded-full font-cinzel uppercase tracking-wider hover:bg-amber-800/50 transition-all duration-300 text-amber-100 flex items-center gap-2 active:scale-95"
-                    >
-                      <span>Login to Checkout</span>
-                    </Link>
-                  )}
-                </div>
               </div>
-            </div>
-          </>
-        )}
+            </motion.div>
+          ) : (
+            <>
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0 },
+                  show: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.1,
+                    },
+                  },
+                }}
+                initial="hidden"
+                animate="show"
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+              >
+                {cartItems.map((item) => (
+                  <motion.div
+                    key={item.id}
+                    layout
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      show: { opacity: 1, y: 0 },
+                      exit: { opacity: 0, x: -50 },
+                    }}
+                    className="group bg-amber-900/20 p-4 rounded-2xl border-4 border-dashed border-amber-500 backdrop-blur-sm flex flex-col items-center gap-4 transition-all duration-300 hover:border-solid hover:shadow-xl hover:shadow-amber-900/10 transform hover:-translate-x-1"
+                  >
+                    <div
+                      className="w-24 h-24 flex-shrink-0 cursor-pointer relative overflow-hidden rounded-lg transition-transform duration-300"
+                      onClick={() => setSelectedImage(item.image)}
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="w-full text-center">
+                      <h3 className="text-xl font-dancingscript text-amber-100">
+                        {item.name}
+                      </h3>
+                      <p className="text-amber-100/80 font-cinzel mt-1 text-center">
+                        {formatPrice(item.price)}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.id, Math.max(1, item.quantity - 1))
+                        }
+                        disabled={loading || item.quantity <= 1}
+                        className="w-8 h-8 rounded-full bg-amber-900/40 flex items-center justify-center hover:bg-amber-800/50 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <FaMinus className="w-8 text-center text-amber-100 font-cinzel" />
+                      </button>
+                      <span className="w-8 text-center text-amber-100 font-cinzel">
+                        {item.quantity}
+                      </span>
+
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        disabled={loading}
+                        className="w-8 h-8 rounded-full bg-amber-900/40 flex items-center justify-center hover:bg-amber-800/50 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <FaPlus className="w-8 text-center text-amber-100 font-cinzel" />
+                      </button>
+                    </div>
+
+                    <div className="flex items-center justify-between w-full">
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        disabled={loading}
+                        className="bg-amber-900/40 px-3 py-1 rounded-full font-cinzel text-xs uppercase transition-all duration-300 hover:bg-amber-800/50 flex items-center gap-1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <FaTrash className="w-4 h-4 text-amber-100" />
+                        <span className="text-amber-100">Remove</span>
+                      </button>
+
+                      <div className="text-sm font-dancingscript text-amber-300">
+                        {formatPrice(item.price * item.quantity)}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="mt-12 pt-8 border-t border-amber-800/30"
+              >
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                  <Link
+                    to="/menu"
+                    className="bg-amber-900/40 px-8 py-3 rounded-full font-cinzel uppercase tracking-wider hover:bg-amber-800/50 transition-all duration-300 text-amber-100 inline-flex items-center gap-2 active:scale-95 hover:gap-3"
+                  >
+                    <span>Continue Shopping</span>
+                  </Link>
+
+                  <div className="flex items-center gap-8">
+                    <h2 className="text-3xl font-dancingscript text-amber-100">
+                      Total: {formatPrice(totalPrice)}
+                    </h2>
+                    {isAuthenticated ? (
+                      <Link
+                        to="/checkout"
+                        className="bg-amber-900/40 px-8 py-3 rounded-full font-cinzel uppercase tracking-wider hover:bg-amber-800/50 transition-all duration-300 text-amber-100 flex items-center gap-2 active:scale-95"
+                      >
+                        <span>Checkout Now</span>
+                      </Link>
+                    ) : (
+                      <Link
+                        to="/login"
+                        className="bg-amber-900/40 px-8 py-3 rounded-full font-cinzel uppercase tracking-wider hover:bg-amber-800/50 transition-all duration-300 text-amber-100 flex items-center gap-2 active:scale-95"
+                      >
+                        <span>Login to Checkout</span>
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
 
       {selectedImage && (

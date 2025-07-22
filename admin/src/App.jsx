@@ -1,12 +1,12 @@
 import Navbar from "./components/Navbar";
 import { Routes, Route, useLocation } from "react-router-dom";
-import AddItems from "./components/AddItems";
-import List from "./components/List";
-import Order from "./components/Order";
 import { Toaster } from "sonner";
-import EditItem from "./components/EditItem";
 import AdminLogin from "./components/AdminLogin";
 import PrivateRoute from "./components/PrivateRoute";
+import Products from "./pages/Products/Products";
+import Orders from "./pages/Orders/Orders";
+import Users from "./pages/Users/Users";
+import Profile from "./pages/Profile/Profile";
 
 const App = () => {
   const location = useLocation();
@@ -21,15 +21,15 @@ const App = () => {
           path="/"
           element={
             <PrivateRoute>
-              <AddItems />
+              <Products />
             </PrivateRoute>
           }
         />
         <Route
-          path="/list"
+          path="/products"
           element={
             <PrivateRoute>
-              <List />
+              <Products />
             </PrivateRoute>
           }
         />
@@ -37,15 +37,23 @@ const App = () => {
           path="/orders"
           element={
             <PrivateRoute>
-              <Order />
+              <Orders />
             </PrivateRoute>
           }
         />
         <Route
-          path="/update/:id"
+          path="/users"
           element={
             <PrivateRoute>
-              <EditItem />
+              <Users />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
             </PrivateRoute>
           }
         />

@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import FloatingParticle from "../FloatingParticle/FloatingParticle";
 import { formatPrice } from "../../utils/priceUtils";
+import { motion } from "framer-motion";
 
 const SpecialOffer = () => {
   const [showAll, setShowAll] = useState(false);
@@ -53,15 +54,32 @@ const SpecialOffer = () => {
         </div>
 
         {/* PRODUCT CARD */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+        >
           {(showAll ? initialData : initialData.slice(0, 4)).map(
             (item, index) => {
               const cartItem = cartItems.find((ci) => ci.id === item.id);
               const quantity = cartItem ? cartItem.quantity : 0;
 
               return (
-                <div
+                <motion.div
                   key={`${item.id}-${index}`}
+                  variants={{
+                    hidden: { opacity: 0, y: 50 },
+                    show: { opacity: 1, y: 0 },
+                  }}
                   className="relative group bg-[#4b3b3b] rounded-3xl overflow-hidden shadow-2xl transform hover:-translate-y-4 transition-all duration-500 hover:shadow-red-900/40 border-2 border-transparent hover:border-amber-500/20 before:absolute before:inset-0 hover:before:opacity-20"
                 >
                   <div className="relative h-72 overflow-hidden">
@@ -140,11 +158,11 @@ const SpecialOffer = () => {
                       <FloatingParticle />
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             }
           )}
-        </div>
+        </motion.div>
 
         <div className="mt-12 flex justify-center">
           <button

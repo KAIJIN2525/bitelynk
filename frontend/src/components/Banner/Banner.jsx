@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaDownload, FaPlay, FaSearch, FaTimes } from "react-icons/fa";
 import { bannerAssets } from "../../assets/dummydata";
 import { FaX } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 const Banner = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,7 +20,12 @@ const Banner = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-amber-900/20 to-amber-700/10" />
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 relative z-10">
           {/* LEFT CONTENT */}
-          <div className="flex-1 space-y-8 relative md:pr-8 lg:pr-19 text-center md:text-left">
+          <motion.div
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex-1 space-y-8 relative md:pr-8 lg:pr-19 text-center md:text-left"
+          >
             <h1 className="text-4xl sm:text-5xl md:text-4xl lg:text-6xl font-bold leading-tight font-serif drop-shadow-md">
               We're Here <br />
               <span className="text-amber-400 bg-gradient-to-r from-amber-400 to-amber-300 bg-clip-text">
@@ -75,7 +81,12 @@ const Banner = () => {
           </div>
 
           {/* RIGHT IMAGES CONTAINER WITH ORBITAL IMAGES */}
-          <div className="flex-1 relative group mt-8 md:mt-0 min-h-[300px] sm:min-h-[400px] ">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="flex-1 relative group mt-8 md:mt-0 min-h-[300px] sm:min-h-[400px] "
+          >
             {/* MAIN IMAGE */}
             <div className="relative rounded-full p-1 bg-gradient-to-br from-amber-700 via-amber-800 to-amber-400 shadow-2xl z-20 w-[250px] xs:[300px] sm:w-[350px] h-[250px] xs:h-[300px] sm:h-[350px] mx-auto">
               <img

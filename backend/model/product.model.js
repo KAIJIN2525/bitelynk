@@ -10,6 +10,7 @@ const productSchema = new mongoose.Schema(
     hearts: { type: Number, default: 0 },
     imageUrl: { type: String },
     imagePublicId: { type: String }, // Added for Cloudinary
+    special: { type: Boolean, default: false },
   },
   {
     timestamps: true,

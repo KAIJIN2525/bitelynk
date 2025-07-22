@@ -4,7 +4,7 @@ import { uploadImage, deleteImage } from "../lib/cloudinary.js";
 // CREATE PRODUCT WITH IMAGE UPLOAD
 export const createProduct = async (req, res) => {
   try {
-    const { name, description, category, price, rating, hearts } = req.body;
+    const { name, description, category, price, rating, hearts, special } = req.body;
 
     // Validation
     if (!name || !description || !category || !price) {
@@ -18,6 +18,7 @@ export const createProduct = async (req, res) => {
     const numericPrice = Number(price);
     const numericRating = rating ? Number(rating) : 0;
     const numericHearts = hearts ? Number(hearts) : 0;
+    const isSpecial = special === 'true' || special === true;
 
     // Validate numeric conversions
     if (isNaN(numericPrice) || numericPrice <= 0) {
@@ -74,6 +75,7 @@ export const createProduct = async (req, res) => {
       imageUrl,
       imagePublicId,
       total,
+      special: isSpecial,
     });
 
     res.status(201).json({
@@ -90,6 +92,7 @@ export const createProduct = async (req, res) => {
         hearts: product.hearts,
         imageUrl: product.imageUrl, // Direct Cloudinary URL for immediate use
         imagePublicId: product.imagePublicId, // Public ID for creating optimized versions
+        special: product.special,
         createdAt: product.createdAt,
         updatedAt: product.updatedAt,
       },
@@ -160,6 +163,7 @@ export const getAllProducts = async (req, res) => {
       image: product.imageUrl, // Use "image" to match frontend expectations
       imageUrl: product.imageUrl, // Keep both for compatibility
       imagePublicId: product.imagePublicId,
+      special: product.special,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     }));
@@ -210,7 +214,7 @@ export const getProductById = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, category, price } = req.body;
+    const { name, description, category, price, rating, hearts, special } = req.body;
 
     const product = await Product.findById(id);
     if (!product) {
@@ -245,6 +249,8 @@ export const updateProduct = async (req, res) => {
       imagePublicId = uploadResult.publicId;
     }
 
+    const isSpecial = special === 'true' || special === true;
+
     // Update product
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
@@ -253,6 +259,9 @@ export const updateProduct = async (req, res) => {
         description: description || product.description,
         category: category || product.category,
         price: price || product.price,
+        rating: rating || product.rating,
+        hearts: hearts || product.hearts,
+        special: isSpecial,
         imageUrl,
         imagePublicId,
       },
