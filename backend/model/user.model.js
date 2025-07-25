@@ -39,6 +39,16 @@ const userSchema = new mongoose.Schema(
         default: "",
       },
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields

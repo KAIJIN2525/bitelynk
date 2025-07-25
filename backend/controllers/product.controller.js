@@ -308,3 +308,59 @@ export const deleteProduct = async (req, res) => {
     });
   }
 };
+
+// CONTROLLER: Set or unset a product as special offer
+export const setSpecialOffer = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { specialOffer } = req.body;
+    if (typeof specialOffer !== "boolean") {
+      return res.status(400).json({
+        success: false,
+        message: "specialOffer must be a boolean",
+      });
+    }
+    const product = await Product.findByIdAndUpdate(
+      id,
+      { specialOffer },
+      { new: true }
+    );
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `Product ${
+        specialOffer ? "set as" : "removed from"
+      } special offer`,
+      product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+// CONTROLLER: Get all special offer products
+export const getSpecialOffers = async (req, res) => {
+  try {
+    const products = await Product.find({ specialOffer: true });
+    res.status(200).json({
+      success: true,
+      count: products.length,
+      data: products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};

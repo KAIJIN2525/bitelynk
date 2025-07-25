@@ -1,6 +1,9 @@
 import User from "../model/user.model.js";
+import Order from "../model/order.model.js";
+import Notification from "../model/notification.model.js";
 import jwt from "jsonwebtoken";
 import validator from "validator";
+import mongoose from "mongoose";
 
 // LOGIN USER
 export const loginUser = async (req, res) => {
@@ -19,10 +22,11 @@ export const loginUser = async (req, res) => {
         .status(401)
         .json({ success: false, message: "Invalid credentials" });
     }
-    const token = createToken(user._id, user.email);
+    const token = createToken(user._id, user.email, user.role);
     res.status(200).json({
       success: true,
       token,
+      role: user.role,
     });
   } catch (error) {
     console.error("Login error:", error);
@@ -31,15 +35,15 @@ export const loginUser = async (req, res) => {
 };
 
 // CREATE TOKEN
-const createToken = (id, email) => {
-  return jwt.sign({ id, email }, process.env.JWT_SECRET, {
+const createToken = (id, email, role) => {
+  return jwt.sign({ id, email, role }, process.env.JWT_SECRET, {
     expiresIn: "2d", // Token expiration time
   });
 };
 
 // REGISTER USER
 export const registerUser = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -64,6 +68,14 @@ export const registerUser = async (req, res) => {
       username,
       email,
       password, // This will be automatically hashed by the pre-save hook
+      role: role || "user",
+    });
+
+    // Create admin notification for new user
+    await Notification.create({
+      type: "user",
+      message: `New user registered: ${username}`,
+      data: { userId: user._id, email },
     });
 
     const token = createToken(user._id, user.email);
@@ -76,6 +88,7 @@ export const registerUser = async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {
@@ -224,5 +237,102 @@ export const updateUserProfile = async (req, res) => {
   } catch (error) {
     console.error("Update profile error:", error);
     res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// RESET ADMIN PASSWORD
+export const resetAdminPassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    const isMatch = await user.matchPassword(oldPassword);
+    if (!isMatch) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Old password is incorrect" });
+    }
+    if (newPassword.length < 8) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "New password must be at least 8 characters",
+        });
+    }
+    user.password = newPassword;
+    await user.save();
+    res
+      .status(200)
+      .json({ success: true, message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// GET ALL USERS (admin only)
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+    res.status(200).json({ success: true, users });
+  } catch (error) {
+    console.error("Get all users error:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// GET USER TOTAL SPENT
+export const getUserTotalSpent = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const result = await Order.aggregate([
+      { $match: { user: new mongoose.Types.ObjectId(userId) } },
+      { $group: { _id: null, totalSpent: { $sum: "$total" } } },
+    ]);
+    res.status(200).json({
+      success: true,
+      totalSpent: result[0]?.totalSpent || 0,
+    });
+  } catch (error) {
+    console.error("Get user total spent error:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// GET USER STATUS COUNTS
+export const getUserStatusCounts = async (req, res) => {
+  try {
+    const counts = await User.aggregate([
+      { $group: { _id: "$status", count: { $sum: 1 } } },
+    ]);
+    const result = counts.reduce((acc, cur) => {
+      acc[cur._id] = cur.count;
+      return acc;
+    }, {});
+    res.status(200).json({ success: true, counts: result });
+  } catch (error) {
+    console.error("Get user status counts error:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// GET NEW USERS FOR THE MONTH
+export const getNewUsersThisMonth = async (req, res) => {
+  try {
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+    const users = await User.find({ createdAt: { $gte: startOfMonth } });
+    res.json({ success: true, count: users.length, users });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
   }
 };

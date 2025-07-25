@@ -1,56 +1,55 @@
-import Navbar from "./components/Navbar";
 import { Routes, Route, useLocation } from "react-router-dom";
-import AddItems from "./components/AddItems";
-import List from "./components/List";
-import Order from "./components/Order";
 import { Toaster } from "sonner";
-import EditItem from "./components/EditItem";
+
+// Components
+import Layout from "./components/Layout";
 import AdminLogin from "./components/AdminLogin";
 import PrivateRoute from "./components/PrivateRoute";
+import Dashboard from "./components/Dashboard";
+import Products from "./components/Products";
+import Orders from "./components/Orders";
+import Users from "./components/Users";
+import Profile from "./components/Profile";
 
 const App = () => {
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
+  const isAuthPage =
+    location.pathname === "/login" || location.pathname === "/signup";
 
   return (
     <>
-      {!isLoginPage && <Navbar />}
       <Routes>
         <Route path="/login" element={<AdminLogin />} />
+        <Route path="/signup" element={<AdminLogin />} />
         <Route
-          path="/"
+          path="/*"
           element={
             <PrivateRoute>
-              <AddItems />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/list"
-          element={
-            <PrivateRoute>
-              <List />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/orders"
-          element={
-            <PrivateRoute>
-              <Order />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/update/:id"
-          element={
-            <PrivateRoute>
-              <EditItem />
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/products" element={<Products />} />
+                  <Route path="/orders" element={<Orders />} />
+                  <Route path="/users" element={<Users />} />
+                  <Route path="/profile" element={<Profile />} />
+                </Routes>
+              </Layout>
             </PrivateRoute>
           }
         />
       </Routes>
-      <Toaster />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "white",
+            color: "#374151",
+            border: "1px solid #e5e7eb",
+            borderRadius: "0.75rem",
+          },
+        }}
+      />
     </>
   );
 };

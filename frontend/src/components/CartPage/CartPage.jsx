@@ -37,7 +37,7 @@ const CartPage = () => {
         : item.price;
     return total + price * item.quantity;
   }, 0);
-
+  
   const [selectedImage, setSelectedImage] = useState(null);
 
   return (
@@ -98,10 +98,10 @@ const CartPage = () => {
                 >
                   <div
                     className="w-24 h-24 flex-shrink-0 cursor-pointer relative overflow-hidden rounded-lg transition-transform duration-300"
-                    onClick={() => setSelectedImage(item.image)}
+                    onClick={() => setSelectedImage(item.imageUrl)}
                   >
                     <img
-                      src={item.image}
+                      src={item.imageUrl}
                       alt={item.name}
                       className="w-full h-full object-contain"
                     />

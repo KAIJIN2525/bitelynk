@@ -3,6 +3,7 @@ import CartItem from "../model/cart.model.js";
 import PaystackService from "../lib/paystack.js";
 import asyncHandler from "express-async-handler";
 import "dotenv/config";
+import Notification from "../model/notification.model.js";
 
 // CREATE ORDER AND INITIALIZE PAYMENT
 export const createOrder = asyncHandler(async (req, res) => {
@@ -161,6 +162,13 @@ export const createOrder = asyncHandler(async (req, res) => {
         },
       });
     }
+
+    // Create admin notification for new order
+    await Notification.create({
+      type: "order",
+      message: `New order placed by ${firstName} ${lastName}`,
+      data: { orderId: order._id, total, paymentMethod },
+    });
   } catch (error) {
     console.error("Create order error:", error);
     res.status(500).json({

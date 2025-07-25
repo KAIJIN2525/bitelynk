@@ -1,0 +1,7 @@
+/* Black wood texture background utility */
+.bg-wood-texture {
+  background-image: url('/public/black-wood-texture.jpg');
+  background-size: cover;
+  background-repeat: repeat;
+  background-attachment: fixed;
+}

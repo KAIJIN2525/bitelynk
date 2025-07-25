@@ -26,4 +26,10 @@ export const productService = {
   deleteProduct: async (id) => {
     return await api.delete(`/products/${id}`);
   },
+  setSpecialOffer: async (id, specialOffer) => {
+    return await api.patch(`/products/${id}/special-offer`, { specialOffer });
+  },
+  getSpecialOffers: async () => {
+    return await api.get(`/products/special-offers`);
+  },
 };

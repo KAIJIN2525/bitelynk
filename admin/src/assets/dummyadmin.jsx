@@ -1,16 +1,25 @@
 import {
+  FiHome,
+  FiBox,
+  FiPackage,
+  FiUsers,
+  FiUser,
   FiPlusCircle,
   FiList,
-  FiPackage,
+  FiLogOut,
+  FiClock, // <-- Added missing import
   FiTruck,
   FiCheckCircle,
-  FiClock,
 } from "react-icons/fi";
 
 export const navLinks = [
-  { name: "Add Items", href: "/", icon: <FiPlusCircle /> },
-  { name: "List Items", href: "/list", icon: <FiList /> },
+  { name: "Dashboard", href: "/", icon: <FiHome /> },
+  { name: "Products", href: "/products", icon: <FiBox /> },
   { name: "Orders", href: "/orders", icon: <FiPackage /> },
+  { name: "Users", href: "/users", icon: <FiUsers /> },
+  { name: "Profile", href: "/profile", icon: <FiUser /> },
+  { name: "Add Items", href: "/add", icon: <FiPlusCircle /> },
+  { name: "List Items", href: "/list", icon: <FiList /> },
 ];
 
 // LIST CSS
@@ -96,48 +105,48 @@ export const iconMap = {
 // Status styles for order statuses
 export const statusStyles = {
   pending: {
-    color: "text-gray-400",
-    bg: "bg-gray-900/20",
+    color: "text-gray-100", // brighter
+    bg: "bg-yellow-500", // solid, vibrant
     icon: "FiClock",
     label: "Pending",
     value: "pending",
     hideLabel: false,
   },
   processing: {
-    color: "text-amber-400",
-    bg: "bg-amber-900/20",
+    color: "text-amber-100",
+    bg: "bg-amber-500",
     icon: "FiClock",
     label: "Processing",
     value: "processing",
     hideLabel: false,
   },
   out_for_delivery: {
-    color: "text-blue-400",
-    bg: "bg-blue-900/20",
+    color: "text-blue-100",
+    bg: "bg-blue-500",
     icon: "FiTruck",
     label: "Out for Delivery",
     value: "out_for_delivery",
     hideLabel: false,
   },
   delivered: {
-    color: "text-green-400",
-    bg: "bg-green-900/20",
+    color: "text-green-100",
+    bg: "bg-green-500",
     icon: "FiCheckCircle",
     label: "Delivered",
     value: "delivered",
     hideLabel: false,
   },
   cancelled: {
-    color: "text-red-400",
-    bg: "bg-red-900/20",
+    color: "text-red-100",
+    bg: "bg-red-500",
     icon: "FiClock",
     label: "Cancelled",
     value: "cancelled",
     hideLabel: false,
   },
   succeeded: {
-    color: "text-green-400",
-    bg: "bg-green-900/20",
+    color: "text-green-100",
+    bg: "bg-green-600",
     icon: "FiCheckCircle",
     label: "Completed",
     value: "succeeded",

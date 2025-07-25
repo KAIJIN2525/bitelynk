@@ -545,7 +545,7 @@ const CheckoutPage = () => {
                       className="flex items-center gap-4 p-3 bg-amber-900/10 rounded-lg"
                     >
                       <img
-                        src={item.image}
+                        src={item.imageUrl}
                         alt={item.name}
                         className="w-12 h-12 object-contain rounded"
                       />

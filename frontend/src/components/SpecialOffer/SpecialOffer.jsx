@@ -8,23 +8,47 @@ import {
   cardData,
   commonTransition,
 } from "../../assets/dummydata";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FloatingParticle from "../FloatingParticle/FloatingParticle";
 import { formatPrice } from "../../utils/priceUtils";
+import { specialOfferService } from "../../lib/specialOfferService";
 
 const SpecialOffer = () => {
   const [showAll, setShowAll] = useState(false);
-  const initialData = [...cardData, ...additionalData];
+  const [specialOffers, setSpecialOffers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { addToCart, updateQuantity, removeFromCart, cartItems } = useCart();
+
+  useEffect(() => {
+    const fetchSpecialOffers = async () => {
+      setLoading(true);
+      try {
+        const res = await specialOfferService.getSpecialOffers();
+        // Map _id to id, and ensure name and imageUrl are present
+        const offers = (res.data || []).map((item) => ({
+          ...item,
+          id: item._id || item.id,
+          name: item.name || item.title,
+          image: item.imageUrl || item.image,
+        }));
+        setSpecialOffers(offers);
+      } catch (error) {
+        // Optionally show a toast or error
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSpecialOffers();
+  }, []);
 
   const handleAddToCart = (item) => {
     addToCart(
       {
         ...item,
         id: item.id,
-        name: item.title,
+        name: item.name, // always use name
         price: item.price, // Already numeric
-        image: item.image,
+        image: item.image, // always use image
       },
       1
     );
@@ -54,7 +78,7 @@ const SpecialOffer = () => {
 
         {/* PRODUCT CARD */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {(showAll ? initialData : initialData.slice(0, 4)).map(
+          {(showAll ? specialOffers : specialOffers.slice(0, 4)).map(
             (item, index) => {
               const cartItem = cartItems.find((ci) => ci.id === item.id);
               const quantity = cartItem ? cartItem.quantity : 0;
@@ -67,7 +91,7 @@ const SpecialOffer = () => {
                   <div className="relative h-72 overflow-hidden">
                     <img
                       src={item.image}
-                      alt={item.title}
+                      alt={item.name}
                       className="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/90" />

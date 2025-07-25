@@ -79,14 +79,12 @@ const Navbar = () => {
   // Get user initials from name
   const getUserInitials = () => {
     if (!user) return "U";
-
-    const firstName = user.firstName || user.name?.split(" ")[0] || "";
-    const lastName = user.lastName || user.name?.split(" ")[1] || "";
-
-    const firstInitial = firstName.charAt(0).toUpperCase();
-    const lastInitial = lastName.charAt(0).toUpperCase();
-
-    return lastInitial ? `${firstInitial}${lastInitial}` : firstInitial || "U";
+    // Accept single name, fallback to username, fallback to 'U'
+    const name = user.name || user.username || "";
+    const nameParts = name.trim().split(" ").filter(Boolean);
+    if (nameParts.length === 0) return "U";
+    if (nameParts.length === 1) return nameParts[0][0].toUpperCase();
+    return (nameParts[0][0] + nameParts[1][0]).toUpperCase();
   };
 
   // EXTRACT DESKTOP AUTH BUTTON

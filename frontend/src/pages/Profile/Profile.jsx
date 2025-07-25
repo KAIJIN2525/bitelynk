@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  FiUser, 
-  FiMail, 
-  FiPhone, 
-  FiMapPin, 
-  FiEdit2, 
-  FiSave, 
-  FiX, 
+import {
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiMapPin,
+  FiEdit2,
+  FiSave,
+  FiX,
   FiPackage,
   FiTruck,
   FiCheckCircle,
@@ -15,7 +15,7 @@ import {
   FiCreditCard,
   FiCalendar,
   FiEye,
-  FiLogOut
+  FiLogOut,
 } from "react-icons/fi";
 import { toast } from "sonner";
 import Navbar from "../../components/Navbar/Navbar";
@@ -30,7 +30,7 @@ const Profile = () => {
     phone: "+234 123 456 7890",
     address: "123 Food Street, Lagos, Nigeria",
   });
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState(user);
   const [orders, setOrders] = useState([]);
@@ -40,7 +40,7 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch user profile and orders in parallel
         const [profileResponse, ordersResponse] = await Promise.all([
           apiServices.user.getProfile().catch((err) => {
@@ -50,7 +50,7 @@ const Profile = () => {
           apiServices.orders.getUserOrders().catch((err) => {
             console.error("Orders API error:", err);
             return { success: false, data: [] };
-          })
+          }),
         ]);
 
         // Set user data if available, otherwise use default
@@ -61,13 +61,13 @@ const Profile = () => {
 
         // Set orders if available
         if (ordersResponse && ordersResponse.success && ordersResponse.orders) {
-          const formattedOrders = ordersResponse.orders.map(order => ({
+          const formattedOrders = ordersResponse.orders.map((order) => ({
             id: order.id || order._id,
             date: order.createdAt,
             status: order.status, // Backend sends as 'status'
             total: order.total,
             paymentMethod: order.paymentMethod,
-            items: order.items || []
+            items: order.items || [],
           }));
           setOrders(formattedOrders);
         } else {
@@ -77,7 +77,7 @@ const Profile = () => {
       } catch (error) {
         console.error("Error fetching user data:", error);
         toast.error("Failed to load profile data");
-        
+
         // Set empty orders array instead of dummy data
         setOrders([]);
       } finally {
@@ -119,9 +119,9 @@ const Profile = () => {
   };
 
   const handleInputChange = (field, value) => {
-    setEditedUser(prev => ({
+    setEditedUser((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -165,10 +165,10 @@ const Profile = () => {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -179,7 +179,9 @@ const Profile = () => {
         <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-amber-50 flex items-center justify-center">
           <div className="bg-white rounded-2xl shadow-2xl p-8 flex items-center space-x-4">
             <div className="animate-spin rounded-full h-8 w-8 border-4 border-amber-500 border-t-transparent"></div>
-            <span className="text-amber-800 font-medium">Loading profile...</span>
+            <span className="text-amber-800 font-medium">
+              Loading profile...
+            </span>
           </div>
         </div>
         <Footer />
@@ -201,7 +203,9 @@ const Profile = () => {
                   <FiUser className="text-6xl text-white" />
                 </div>
                 <div className="flex-1 text-center md:text-left">
-                  <h1 className="text-4xl font-bold mb-2 font-serif">{user.name}</h1>
+                  <h1 className="text-4xl font-bold mb-2 font-serif">
+                    {user.name}
+                  </h1>
                   <p className="text-amber-100 text-lg mb-4">Food Enthusiast</p>
                   <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm">
                     <div className="flex items-center space-x-2">
@@ -242,7 +246,7 @@ const Profile = () => {
                   <FiUser className="text-amber-600" />
                   <span>Profile Information</span>
                 </h2>
-                
+
                 <div className="space-y-4">
                   <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
                     <label className="block text-sm font-medium text-amber-700 mb-2">
@@ -252,7 +256,9 @@ const Profile = () => {
                       <input
                         type="text"
                         value={editedUser.name}
-                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("name", e.target.value)
+                        }
                         className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                       />
                     ) : (
@@ -268,7 +274,9 @@ const Profile = () => {
                       <input
                         type="email"
                         value={editedUser.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("email", e.target.value)
+                        }
                         className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                       />
                     ) : (
@@ -284,7 +292,9 @@ const Profile = () => {
                       <input
                         type="tel"
                         value={editedUser.phone}
-                        onChange={(e) => handleInputChange('phone', e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("phone", e.target.value)
+                        }
                         className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                       />
                     ) : (
@@ -298,13 +308,40 @@ const Profile = () => {
                     </label>
                     {isEditing ? (
                       <textarea
-                        value={editedUser.address}
-                        onChange={(e) => handleInputChange('address', e.target.value)}
+                        value={
+                          typeof editedUser.address === "object" &&
+                          editedUser.address !== null
+                            ? [
+                                editedUser.address.street,
+                                editedUser.address.city,
+                                editedUser.address.state,
+                                editedUser.address.postalCode,
+                              ]
+                                .filter(Boolean)
+                                .join(", ")
+                            : editedUser.address
+                        }
+                        onChange={(e) =>
+                          handleInputChange("address", e.target.value)
+                        }
                         rows="3"
+                        placeholder="e.g. 123 Food Street, Lagos, Nigeria"
                         className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none"
                       />
                     ) : (
-                      <p className="text-amber-900 font-medium">{user.address}</p>
+                      <p className="text-amber-900 font-medium">
+                        {typeof user.address === "object" &&
+                        user.address !== null
+                          ? [
+                              user.address.street,
+                              user.address.city,
+                              user.address.state,
+                              user.address.postalCode,
+                            ]
+                              .filter(Boolean)
+                              .join(", ")
+                          : user.address}
+                      </p>
                     )}
                   </div>
 
@@ -340,8 +377,8 @@ const Profile = () => {
 
                 <div className="space-y-4">
                   {orders.map((order) => (
-                    <div 
-                      key={order.id} 
+                    <div
+                      key={order.id}
                       className="bg-amber-50 rounded-xl p-6 border border-amber-200 hover:shadow-lg transition-all duration-300 cursor-pointer group"
                       onClick={() => handleOrderClick(order.id)}
                     >
@@ -351,7 +388,9 @@ const Profile = () => {
                             {getStatusIcon(order.status)}
                           </div>
                           <div>
-                            <p className="font-bold text-amber-900">Order #{order.id.slice(-8).toUpperCase()}</p>
+                            <p className="font-bold text-amber-900">
+                              Order #{order.id.slice(-8).toUpperCase()}
+                            </p>
                             <p className="text-sm text-amber-700 flex items-center space-x-1">
                               <FiCalendar className="text-amber-600" />
                               <span>{formatDate(order.date)}</span>
@@ -359,8 +398,12 @@ const Profile = () => {
                           </div>
                         </div>
                         <div className="flex items-center space-x-4">
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(order.status)}`}>
-                            {order.status.replace('_', ' ').toUpperCase()}
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(
+                              order.status
+                            )}`}
+                          >
+                            {order.status.replace("_", " ").toUpperCase()}
                           </span>
                           <p className="text-lg font-bold text-amber-800">
                             {formatPrice(order.total)}
@@ -371,10 +414,13 @@ const Profile = () => {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="space-y-2">
                         {order.items.map((item, index) => (
-                          <div key={index} className="flex justify-between items-center text-sm">
+                          <div
+                            key={index}
+                            className="flex justify-between items-center text-sm"
+                          >
                             <span className="text-amber-900">
                               {item.name} x{item.quantity}
                             </span>
@@ -393,8 +439,12 @@ const Profile = () => {
                     <div className="w-24 h-24 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
                       <FiPackage className="text-4xl text-amber-600" />
                     </div>
-                    <h3 className="text-lg font-medium text-amber-800 mb-2">No Orders Yet</h3>
-                    <p className="text-amber-600">Start exploring our delicious menu!</p>
+                    <h3 className="text-lg font-medium text-amber-800 mb-2">
+                      No Orders Yet
+                    </h3>
+                    <p className="text-amber-600">
+                      Start exploring our delicious menu!
+                    </p>
                   </div>
                 )}
               </div>
