@@ -62,25 +62,25 @@ export const stats = [
     number: "10M+",
     label: "Deliveries",
     icon: GiFoodTruck,
-    gradient: "from-amber-500 via-orange-400 to-yellow-600",
+    gradient: "from-primary via-primary-dark to-primary",
   },
   {
     number: "98%",
     label: "Satisfaction",
     icon: FaHeart,
-    gradient: "from-rose-500 via-amber-500 to-yellow-500",
+    gradient: "from-primary via-primary-dark to-primary",
   },
   {
     number: "500+",
     label: "Cities",
     icon: FaLeaf,
-    gradient: "from-emerald-500 via-amber-500 to-yellow-600",
+    gradient: "from-primary via-primary-dark to-primary",
   },
   {
     number: "24/7",
     label: "Support",
     icon: FaRegClock,
-    gradient: "from-amber-500 via-orange-400 to-rose-500",
+    gradient: "from-primary via-primary-dark to-primary",
   },
 ];
 
@@ -132,34 +132,34 @@ export const aboutfeature = [
     icon: FaBolt,
     title: "Instant Ordering",
     text: "Seamless digital experience",
-    color: "from-amber-400 to-orange-500",
+    color: "from-primary to-primary-dark",
   },
   {
     icon: FaRegClock,
     title: "Always Open",
     text: "24/7 premium service",
-    color: "from-rose-400 to-pink-600",
+    color: "from-primary to-primary-dark",
   },
   {
     icon: FaCalendarCheck,
     title: "Exclusive Booking",
     text: "Priority reservations",
-    color: "from-emerald-400 to-cyan-600",
+    color: "from-primary to-primary-dark",
   },
   {
     icon: FaFire,
     title: "Signature Dishes",
     text: "Chef's special creations",
-    color: "from-purple-400 to-indigo-600",
+    color: "from-primary to-primary-dark",
   },
 ];
 
 // SPECIAL OFFER
 export const commonTransition = "transition-all duration-300";
 export const addButtonBase =
-  "flex items-center gap-2 bg-gradient-to-r from-red-600 to-amber-600 text-white px-4 py-2.5 rounded-full font-bold border-2 border-amber-400/30";
+  "flex items-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white px-4 py-2.5 rounded-full font-bold border-2 border-primary/30";
 export const addButtonHover =
-  "hover:gap-3 hover:shadow-lg hover:shadow-amber-500/30 active:scale-95 relative overflow-hidden";
+  "hover:gap-3 hover:shadow-lg hover:shadow-primary/30 active:scale-95 relative overflow-hidden";
 
 // SPECIAL MENU
 export const cardData = [
@@ -274,9 +274,9 @@ export const socialIcons = [
 
 // LOGIN
 export const inputBase =
-  "w-full rounded-lg bg-[#2D1B0E] text-amber-100 placeholder-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600";
+  "w-full rounded-lg bg-light-background text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary";
 export const iconClass =
-  "absolute top-1/2 transform -translate-y-1/2 left-3 text-amber-400";
+  "absolute top-1/2 transform -translate-y-1/2 left-3 text-primary";
 
 // CONTACT
 export const contactFormFields = [

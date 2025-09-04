@@ -176,10 +176,10 @@ const Profile = () => {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-amber-50 flex items-center justify-center">
+        <div className="min-h-screen bg-light-background flex items-center justify-center">
           <div className="bg-white rounded-2xl shadow-2xl p-8 flex items-center space-x-4">
-            <div className="animate-spin rounded-full h-8 w-8 border-4 border-amber-500 border-t-transparent"></div>
-            <span className="text-amber-800 font-medium">
+            <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"></div>
+            <span className="text-text-primary font-medium">
               Loading profile...
             </span>
           </div>
@@ -192,11 +192,11 @@ const Profile = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-amber-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-light-background py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           {/* Profile Header */}
-          <div className="bg-gradient-to-r from-amber-600 to-amber-700 rounded-3xl shadow-2xl p-8 mb-8 text-white relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-600/20 to-amber-700/10" />
+          <div className="bg-gradient-to-r from-primary to-primary-dark rounded-3xl shadow-2xl p-8 mb-8 text-white relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary-dark/10" />
             <div className="relative z-10">
               <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
                 <div className="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border-4 border-white/30">
@@ -206,14 +206,14 @@ const Profile = () => {
                   <h1 className="text-4xl font-bold mb-2 font-serif">
                     {user.name}
                   </h1>
-                  <p className="text-amber-100 text-lg mb-4">Food Enthusiast</p>
+                  <p className="text-light-background text-lg mb-4">Food Enthusiast</p>
                   <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm">
                     <div className="flex items-center space-x-2">
-                      <FiMail className="text-amber-200" />
+                      <FiMail className="text-primary" />
                       <span>{user.email}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <FiPhone className="text-amber-200" />
+                      <FiPhone className="text-primary" />
                       <span>{user.phone}</span>
                     </div>
                   </div>
@@ -228,7 +228,7 @@ const Profile = () => {
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="px-6 py-3 bg-red-600/80 backdrop-blur-sm rounded-xl text-white font-medium hover:bg-red-600 transition-all duration-300 flex items-center justify-center space-x-2 border border-red-500/30"
+                    className="px-6 py-3 bg-error/80 backdrop-blur-sm rounded-xl text-white font-medium hover:bg-error transition-all duration-300 flex items-center justify-center space-x-2 border border-red-500/30"
                   >
                     <FiLogOut />
                     <span>Logout</span>
@@ -241,15 +241,15 @@ const Profile = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Profile Information */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl shadow-xl p-6 border border-amber-100">
-                <h2 className="text-2xl font-bold text-amber-800 mb-6 flex items-center space-x-2">
-                  <FiUser className="text-amber-600" />
+              <div className="bg-white rounded-2xl shadow-xl p-6 border border-border">
+                <h2 className="text-2xl font-bold text-text-primary mb-6 flex items-center space-x-2">
+                  <FiUser className="text-primary" />
                   <span>Profile Information</span>
                 </h2>
 
                 <div className="space-y-4">
-                  <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
-                    <label className="block text-sm font-medium text-amber-700 mb-2">
+                  <div className="p-4 bg-light-background rounded-xl border border-border">
+                    <label className="block text-sm font-medium text-text-secondary mb-2">
                       Full Name
                     </label>
                     {isEditing ? (
@@ -259,15 +259,15 @@ const Profile = () => {
                         onChange={(e) =>
                           handleInputChange("name", e.target.value)
                         }
-                        className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                        className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       />
                     ) : (
-                      <p className="text-amber-900 font-medium">{user.name}</p>
+                      <p className="text-text-primary font-medium">{user.name}</p>
                     )}
                   </div>
 
-                  <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
-                    <label className="block text-sm font-medium text-amber-700 mb-2">
+                  <div className="p-4 bg-light-background rounded-xl border border-border">
+                    <label className="block text-sm font-medium text-text-secondary mb-2">
                       Email Address
                     </label>
                     {isEditing ? (
@@ -277,15 +277,15 @@ const Profile = () => {
                         onChange={(e) =>
                           handleInputChange("email", e.target.value)
                         }
-                        className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                        className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       />
                     ) : (
-                      <p className="text-amber-900 font-medium">{user.email}</p>
+                      <p className="text-text-primary font-medium">{user.email}</p>
                     )}
                   </div>
 
-                  <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
-                    <label className="block text-sm font-medium text-amber-700 mb-2">
+                  <div className="p-4 bg-light-background rounded-xl border border-border">
+                    <label className="block text-sm font-medium text-text-secondary mb-2">
                       Phone Number
                     </label>
                     {isEditing ? (
@@ -295,15 +295,15 @@ const Profile = () => {
                         onChange={(e) =>
                           handleInputChange("phone", e.target.value)
                         }
-                        className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                        className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       />
                     ) : (
-                      <p className="text-amber-900 font-medium">{user.phone}</p>
+                      <p className="text-text-primary font-medium">{user.phone}</p>
                     )}
                   </div>
 
-                  <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
-                    <label className="block text-sm font-medium text-amber-700 mb-2">
+                  <div className="p-4 bg-light-background rounded-xl border border-border">
+                    <label className="block text-sm font-medium text-text-secondary mb-2">
                       Address
                     </label>
                     {isEditing ? (
@@ -326,10 +326,10 @@ const Profile = () => {
                         }
                         rows="3"
                         placeholder="e.g. 123 Food Street, Lagos, Nigeria"
-                        className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none"
+                        className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                       />
                     ) : (
-                      <p className="text-amber-900 font-medium">
+                      <p className="text-text-primary font-medium">
                         {typeof user.address === "object" &&
                         user.address !== null
                           ? [
@@ -349,7 +349,7 @@ const Profile = () => {
                     <div className="flex space-x-3 pt-4">
                       <button
                         onClick={handleSave}
-                        className="flex-1 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-xl font-medium hover:from-amber-700 hover:to-amber-800 transition-all duration-300 flex items-center justify-center space-x-2"
+                        className="flex-1 px-4 py-2 bg-gradient-to-r from-primary to-primary-dark text-white rounded-xl font-medium hover:from-primary-dark hover:to-primary transition-all duration-300 flex items-center justify-center space-x-2"
                       >
                         <FiSave />
                         <span>Save Changes</span>
@@ -369,9 +369,9 @@ const Profile = () => {
 
             {/* Order History */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl shadow-xl p-6 border border-amber-100">
-                <h2 className="text-2xl font-bold text-amber-800 mb-6 flex items-center space-x-2">
-                  <FiPackage className="text-amber-600" />
+              <div className="bg-white rounded-2xl shadow-xl p-6 border border-border">
+                <h2 className="text-2xl font-bold text-text-primary mb-6 flex items-center space-x-2">
+                  <FiPackage className="text-primary" />
                   <span>Order History</span>
                 </h2>
 
@@ -379,20 +379,20 @@ const Profile = () => {
                   {orders.map((order) => (
                     <div
                       key={order.id}
-                      className="bg-amber-50 rounded-xl p-6 border border-amber-200 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                      className="bg-light-background rounded-xl p-6 border border-border hover:shadow-lg transition-all duration-300 cursor-pointer group"
                       onClick={() => handleOrderClick(order.id)}
                     >
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                         <div className="flex items-center space-x-3 mb-2 md:mb-0">
-                          <div className="p-2 bg-amber-100 rounded-lg">
+                          <div className="p-2 bg-primary/10 rounded-lg">
                             {getStatusIcon(order.status)}
                           </div>
                           <div>
-                            <p className="font-bold text-amber-900">
+                            <p className="font-bold text-text-primary">
                               Order #{order.id.slice(-8).toUpperCase()}
                             </p>
-                            <p className="text-sm text-amber-700 flex items-center space-x-1">
-                              <FiCalendar className="text-amber-600" />
+                            <p className="text-sm text-text-secondary flex items-center space-x-1">
+                              <FiCalendar className="text-primary" />
                               <span>{formatDate(order.date)}</span>
                             </p>
                           </div>
@@ -405,10 +405,10 @@ const Profile = () => {
                           >
                             {order.status.replace("_", " ").toUpperCase()}
                           </span>
-                          <p className="text-lg font-bold text-amber-800">
+                          <p className="text-lg font-bold text-text-primary">
                             {formatPrice(order.total)}
                           </p>
-                          <div className="flex items-center space-x-2 text-amber-600 group-hover:text-amber-800 transition-colors">
+                          <div className="flex items-center space-x-2 text-primary group-hover:text-primary-dark transition-colors">
                             <FiEye />
                             <span className="text-sm">View Details</span>
                           </div>
@@ -421,10 +421,10 @@ const Profile = () => {
                             key={index}
                             className="flex justify-between items-center text-sm"
                           >
-                            <span className="text-amber-900">
+                            <span className="text-text-primary">
                               {item.name} x{item.quantity}
                             </span>
-                            <span className="text-amber-700 font-medium">
+                            <span className="text-text-secondary font-medium">
                               {formatPrice(item.price)}
                             </span>
                           </div>
@@ -436,13 +436,13 @@ const Profile = () => {
 
                 {orders.length === 0 && (
                   <div className="text-center py-12">
-                    <div className="w-24 h-24 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <FiPackage className="text-4xl text-amber-600" />
+                    <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <FiPackage className="text-4xl text-primary" />
                     </div>
-                    <h3 className="text-lg font-medium text-amber-800 mb-2">
+                    <h3 className="text-lg font-medium text-text-primary mb-2">
                       No Orders Yet
                     </h3>
-                    <p className="text-amber-600">
+                    <p className="text-primary">
                       Start exploring our delicious menu!
                     </p>
                   </div>

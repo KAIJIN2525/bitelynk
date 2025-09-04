@@ -6,9 +6,9 @@ import { apiServices } from "../../lib/services";
 
 const AwesomeToast = ({ message, icon }) => {
   return (
-    <div className="animate-slide-in fixed bottom-6 right-6 flex items-center bg-gradient-to-br from-amber-500 to-amber-600 px-6 py-4 rounded-lg shadow-lg border-2 border-amber-300/20 z-50">
-      <span className="text-2xl mr-3 text-[#2D1B0E]">{icon}</span>
-      <span className="text-[#2D1B0E] font-semibold">{message}</span>
+    <div className="animate-slide-in fixed bottom-6 right-6 flex items-center bg-gradient-to-br from-primary to-primary-dark px-6 py-4 rounded-lg shadow-lg border-2 border-primary/20 z-50">
+      <span className="text-2xl mr-3 text-dark-accent">{icon}</span>
+      <span className="text-dark-accent font-semibold">{message}</span>
     </div>
   );
 };
@@ -88,13 +88,13 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#1a120b] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-light-background p-4">
       {showToast && (
         <AwesomeToast message="Sign up successful!" icon={<FaCheckCircle />} />
       )}
 
-      <div className="w-full max-w-md bg-gradient-to-br from-[#2D1B0E] to-[#4a372a] p-8 rounded-xl shadow-lg border-4 border-amber-700/30 transform transition-all duration-300 hover:shadow-2xl">
-        <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent mb-6 hover:scale-105 transition-transform">
+      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg border border-border transform transition-all duration-300 hover:shadow-2xl">
+        <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent mb-6 hover:scale-105 transition-transform">
           Create an Account
         </h1>
 
@@ -105,7 +105,7 @@ const SignUp = () => {
             placeholder="Username"
             value={formData.username}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg bg-[#2D1B0E] text-amber-100 placeholder:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 rounded-lg bg-light-background text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
             required
             disabled={isLoading}
           />
@@ -115,7 +115,7 @@ const SignUp = () => {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-lg bg-[#2D1B0E] text-amber-100 placeholder:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 rounded-lg bg-light-background text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
             required
             disabled={isLoading}
           />
@@ -127,7 +127,7 @@ const SignUp = () => {
               placeholder="Password (min. 6 characters)"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg bg-[#2D1B0E] text-amber-100 placeholder:text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-600 transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-3 rounded-lg bg-light-background text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
               required
               disabled={isLoading}
               minLength={6}
@@ -135,7 +135,7 @@ const SignUp = () => {
             <button
               type="button"
               onClick={toggleShowPassword}
-              className="absolute right-3 top-3 text-amber-400 hover:text-amber-200 transition-colors disabled:opacity-50"
+              className="absolute right-3 top-3 text-primary hover:text-primary-dark transition-colors disabled:opacity-50"
               disabled={isLoading}
             >
               {showPassword ? (
@@ -149,11 +149,11 @@ const SignUp = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 text-[#2D1B0E] font-bold hover:scale-105 transition-transform hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-lg bg-gradient-to-br from-primary to-primary-dark text-dark-accent font-bold hover:scale-105 transition-transform hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
-                <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#2D1B0E] border-t-transparent"></div>
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-dark-accent border-t-transparent"></div>
                 Creating Account...
               </>
             ) : (
@@ -162,9 +162,9 @@ const SignUp = () => {
           </button>
         </form>
 
-        <p className="mt-4 text-center text-amber-400">
+        <p className="mt-4 text-center text-primary">
           Already have an account?{" "}
-          <Link to="/login" className="font-bold hover:text-amber-600">
+          <Link to="/login" className="font-bold hover:text-primary-dark">
             Log in
           </Link>
         </p>

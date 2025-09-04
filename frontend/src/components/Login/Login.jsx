@@ -134,7 +134,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-amber-400 hover:text-amber-200 transition-colors duration-200"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary-dark transition-colors duration-200"
             disabled={isLoading}
           >
             {showPassword ? (
@@ -153,20 +153,20 @@ const Login = ({ onLoginSuccess, onClose }) => {
               name="rememberMe"
               checked={formData.rememberMe}
               onChange={handleChange}
-              className="form-checkbox h-5 w-5 text-amber-600 bg-[#2D1B0E] border-amber-400 rounded focus:ring-amber-500"
+              className="form-checkbox h-5 w-5 text-primary bg-light-background border-primary rounded focus:ring-primary"
             />
-            <span className="ml-2 text-amber-100">Remember Me</span>
+            <span className="ml-2 text-text-primary">Remember Me</span>
           </label>
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-[#2D1B0E] font-bold rounded-lg flex items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          className="w-full py-3 bg-gradient-to-r from-primary to-primary-dark text-dark-accent font-bold rounded-lg flex items-center justify-center gap-2 hover:scale-105 transition-transform duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
           {isLoading ? (
             <>
-              <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#2D1B0E] border-t-transparent"></div>
+              <div className="animate-spin rounded-full h-5 w-5 border-2 border-dark-accent border-t-transparent"></div>
               Signing In...
             </>
           ) : (
@@ -181,7 +181,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
         <Link
           to="/signup"
           onClick={onClose}
-          className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-600 transition-colors duration-200"
+          className="inline-flex items-center gap-2 text-primary hover:text-primary-dark transition-colors duration-200"
         >
           <FaUserPlus className="w-5 h-5" />
           Create New Account
